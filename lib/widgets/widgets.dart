@@ -7,3 +7,4 @@ export 'horizontal_product_container.dart';
 export 'product_widget.dart';
 export 'rounded_icon_button.dart';
 export 'vertical_product_container.dart';
+export 'dynamic_width_container.dart';

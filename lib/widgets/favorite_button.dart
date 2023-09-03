@@ -20,21 +20,25 @@ class FavoriteButton extends StatefulWidget {
 class _FavoriteButtonState extends State<FavoriteButton> {
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: widget.bgColor,
-      radius: widget.radius,
-      child: Center(
-        child: IconButton(
-          onPressed: () {
-            setState(() {
-              widget.product.isFavorite = !widget.product.isFavorite;
-            });
-          },
-          icon: Icon(
-            Icons.favorite,
-            color: widget.product.isFavorite
-                ? Colors.red.shade300
-                : Colors.grey.shade400,
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+      child: CircleAvatar(
+        backgroundColor: widget.bgColor,
+        radius: widget.radius,
+        child: Center(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                widget.product.isFavorite = !widget.product.isFavorite;
+              });
+            },
+            icon: Icon(
+              Icons.favorite,
+              color: widget.product.isFavorite
+                  ? Colors.red.shade300
+                  : Colors.grey.shade400,
+            ),
           ),
         ),
       ),

@@ -10,6 +10,7 @@ class RoundedIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
+      // width: 20,
       decoration: BoxDecoration(
         color: backgroundeColor,
         borderRadius: BorderRadius.circular(5),

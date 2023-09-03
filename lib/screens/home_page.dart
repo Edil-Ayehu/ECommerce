@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_commerce_project/models/category.dart';
 import 'package:e_commerce_project/models/products.dart';
+import 'package:e_commerce_project/screens/products_page.dart';
+import 'package:e_commerce_project/widgets/horizontal_text_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screens.dart';
@@ -19,19 +22,9 @@ class _HomePageState extends State<HomePage> {
     {"title": "Advertisement 2", "url": "images/add2.jpg"},
   ];
 
-  final List<String> _categoryList = [
-    'Electronics',
-    'Food',
-    'Clothings',
-    'Furniture',
-    'Stationary',
-    'Shoes'
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -129,7 +122,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(
+                      ProductCategoriesPage(categories: Category.categories));
+                },
                 icon: const Icon(
                   Icons.category,
                   color: Colors.white,
@@ -155,83 +151,88 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10, left: 10.0, right: 10.0),
-        child: Column(
-          children: [
-            const CustomSearchBar(),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: 45,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: _categoryList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return CategoryWidget(categoryName: _categoryList[index]);
-                },
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomSearchBar(),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: HorizontalTextContainer(
+              onTap: () {
+                Get.to(ProductCategoriesPage(categories: Category.categories));
+              },
+              titleText: 'Categories',
             ),
-            const SizedBox(height: 20),
-            CarouselSlider(
-              items: _advertisement.map(
-                (item) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: GridTile(
-                      child: Image(
-                        image: AssetImage(item['url']),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ).toList(),
-              options: CarouselOptions(
-                aspectRatio: 2,
-                autoPlay: true,
-                enlargeCenterPage: true,
-                enlargeFactor: 1,
-                height: 140,
-              ),
+          ),
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: Category.categories.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final category = Category.categories[index];
+                return InkWell(
+                  onTap: () {
+                    category.subCategories.isEmpty
+                        ? Get.to(ProductsPage(
+                            products: Product.products
+                                .where((element) =>
+                                    element.productCategory == category.name)
+                                .toList()))
+                        : Get.to(ProductCategoriesPage(
+                            categories: Category.categories));
+                  },
+                  child: DynamicWidthContainer(
+                    text: Category.categories[index].name,
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: 15),
-            Container(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 15, top: 20, bottom: 20),
-              // margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'New Arrivals',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+          ),
+          const SizedBox(height: 20),
+          CarouselSlider(
+            items: _advertisement.map(
+              (item) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: GridTile(
+                    child: Image(
+                      image: AssetImage(item['url']),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(const AllNewArrivalProducts());
-                    },
-                    child: Text(
-                      'See all',
-                      style: TextStyle(
-                        color: Colors.green.shade900,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
+            ).toList(),
+            options: CarouselOptions(
+              aspectRatio: 2,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              enlargeFactor: 1,
+              height: 140,
             ),
-            ProductWidget(
-              products: Product.products,
-              itemCount: 10,
+          ),
+          const SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: HorizontalTextContainer(
+              onTap: () {
+                Get.to(const AllNewArrivalProducts());
+              },
+              titleText: 'New Arrivals',
             ),
-          ],
-        ),
+          ),
+          ProductWidget(
+            products: Product.products,
+            itemCount: 10,
+          ),
+        ],
       ),
     );
   }

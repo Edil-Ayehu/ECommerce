@@ -89,7 +89,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Container(
             height: 100, // Set the height for the small images area
             child: PageView.builder(
-              // itemCount: widget.productImages.length,
               itemCount: widget.product.productImageUrl.length,
               controller: PageController(viewportFraction: 0.2),
               onPageChanged: (index) {
@@ -106,16 +105,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         _selectedImageIndex = index;
                       });
                     },
-                    child: CachedNetworkImage(
-                      imageUrl: widget.product.productImageUrl[index],
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      errorWidget: (context, url, error) => const Image(
-                        image: AssetImage('images/error1.jpg'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.product.productImageUrl[index],
                         fit: BoxFit.cover,
+                        width: double.infinity,
+                        errorWidget: (context, url, error) => const Image(
+                          image: AssetImage('images/error1.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                       ),
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
                     ),
                   ),
                 );
@@ -182,7 +184,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     widget.product.productDescription,
                     style: const TextStyle(
                       letterSpacing: 1.2,
-                      fontSize: 15,
+                      fontSize: 12,
                       color: Colors.grey,
                     ),
                   ),

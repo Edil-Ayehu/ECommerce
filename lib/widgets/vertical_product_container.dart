@@ -13,11 +13,12 @@ class VerticalProductContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          width: MediaQuery.of(context).size.width * 0.45,
+          width: w / 2.2,
           height: 220,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -50,24 +51,26 @@ class VerticalProductContainer extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.productName,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '\$${product.productPrice}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.productName,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              overflow: TextOverflow.ellipsis),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 5),
+                        Text(
+                          '\$${product.productPrice}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   RoundedIconButton(
                     icon: Icons.add,
@@ -80,8 +83,11 @@ class VerticalProductContainer extends StatelessWidget {
         ),
         Positioned(
           top: 9,
-          right: 15,
-          child: FavoriteButton(product: product),
+          right: 6,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: FavoriteButton(product: product),
+          ),
         ),
       ],
     );
