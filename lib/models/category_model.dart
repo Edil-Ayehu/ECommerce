@@ -11,8 +11,9 @@ class Category extends Equatable {
 
   static final List<Category> categories = [
     Category(
-        name: 'Electronics', subCategories: const ['TV', 'Phone', 'Laptop']),
-    Category(name: 'Clothing', subCategories: const ['Men', 'Women']),
+        name: 'Electronics',
+        subCategories: const ['TV', 'Phone', 'Laptop', 'Headset', 'Tablet']),
+    Category(name: 'Clothing', subCategories: const ['Men', 'Women', 'Kids']),
     Category(name: 'Furniture', subCategories: const []),
     Category(name: 'Automotive', subCategories: const []),
     Category(name: 'Pet Supplies', subCategories: const ['Dog', 'Cat']),

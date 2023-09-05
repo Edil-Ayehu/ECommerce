@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/products.dart';
+import '../models/products_model.dart';
 
 class FavoriteButton extends StatefulWidget {
   final double radius;

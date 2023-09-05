@@ -12,7 +12,7 @@ class DynamicWidthContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(22),
       ),
       child: Text(
         text,

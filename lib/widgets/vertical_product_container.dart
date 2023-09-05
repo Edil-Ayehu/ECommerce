@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../models/products.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../models/products_model.dart';
 
 class VerticalProductContainer extends StatelessWidget {
   final Product product;
@@ -42,8 +42,9 @@ class VerticalProductContainer extends StatelessWidget {
                       image: AssetImage('images/error1.jpg'),
                       fit: BoxFit.cover,
                     ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
+                    placeholder: (context, url) => SpinKitCircle(
+                      color: Colors.green.shade900,
+                    ),
                   ),
                 ),
               ),
@@ -75,6 +76,7 @@ class VerticalProductContainer extends StatelessWidget {
                   RoundedIconButton(
                     icon: Icons.add,
                     backgroundeColor: Colors.green.shade900,
+                    product: product,
                   ),
                 ],
               ),

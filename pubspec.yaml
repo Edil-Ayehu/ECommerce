@@ -42,7 +42,8 @@ dependencies:
   equatable:
   share:
   cached_network_image:
-  flutter_rating_bar: 
+  flutter_rating_bar:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:

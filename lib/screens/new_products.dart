@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 export 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
-import '../models/products.dart';
+import '../models/products_model.dart';
 import 'home_page.dart';
 
 class AllNewArrivalProducts extends StatelessWidget {
@@ -11,10 +11,10 @@ class AllNewArrivalProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
-        elevation: 2,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
@@ -30,19 +30,34 @@ class AllNewArrivalProducts extends StatelessWidget {
             icon: const Icon(Icons.arrow_back)),
         foregroundColor: Colors.black,
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: CustomSearchBar(),
+      body: Container(
+        padding: const EdgeInsets.only(
+          right: 5,
+          left: 5,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(28),
+            topRight: Radius.circular(28),
           ),
-          const SizedBox(height: 10),
-          ProductWidget(
-            products: Product.products,
-            itemCount: Product.products.length,
-          ),
-        ],
+          color: Colors.grey.shade200,
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomSearchBar(),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ProductWidget(
+                products: Product.products,
+                itemCount: Product.products.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

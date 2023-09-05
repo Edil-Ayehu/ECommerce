@@ -1,10 +1,8 @@
-import 'package:e_commerce_project/screens/product_categories_page.dart';
 import 'package:e_commerce_project/utilities/dismiss_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'screens/screens.dart';
-import 'package:e_commerce_project/models/category.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +21,10 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.grey.shade200,
           primarySwatch: Colors.green,
           appBarTheme: AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle(
+              systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.light,
-                statusBarColor: Colors.grey.shade200,
+                statusBarColor: Colors.transparent,
               ),
               centerTitle: true,
               foregroundColor: Colors.black,

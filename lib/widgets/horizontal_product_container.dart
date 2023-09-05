@@ -2,14 +2,41 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../models/products.dart';
+import '../models/models.dart';
+import '../models/products_model.dart';
 
-class HorizontalProductContainer extends StatelessWidget {
+class HorizontalProductContainer extends StatefulWidget {
   final Product product;
 
   HorizontalProductContainer({
     required this.product,
   });
+
+  @override
+  State<HorizontalProductContainer> createState() =>
+      _HorizontalProductContainerState();
+}
+
+class _HorizontalProductContainerState
+    extends State<HorizontalProductContainer> {
+  addItemToCart(CartItem newItem) {
+    bool itemExists =
+        CartItem.cartItems.any((item) => item.name == newItem.name);
+    if (itemExists) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('The Product is already in the Cart!'),
+        ),
+      );
+    } else {
+      CartItem.cartItems.add(newItem);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product added to the cart successfully!'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +56,7 @@ class HorizontalProductContainer extends StatelessWidget {
         child: Row(
           children: [
             Hero(
-              tag: product.productId,
+              tag: widget.product.productId,
               child: Container(
                 width: 130,
                 height: 110,
@@ -39,7 +66,7 @@ class HorizontalProductContainer extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                    imageUrl: product.productImageUrl[0],
+                    imageUrl: widget.product.productImageUrl[0],
                     fit: BoxFit.cover,
                     height: 150,
                     errorWidget: (context, url, error) => const Image(
@@ -70,7 +97,7 @@ class HorizontalProductContainer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product.productName,
+                                widget.product.productName,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -78,8 +105,8 @@ class HorizontalProductContainer extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '\$${product.productPrice}',
-                                style: TextStyle(
+                                '\$${widget.product.productPrice}',
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -88,7 +115,7 @@ class HorizontalProductContainer extends StatelessWidget {
                         ),
                         FavoriteButton(
                           radius: 19,
-                          product: product,
+                          product: widget.product,
                         ),
                       ],
                     ),
@@ -97,7 +124,7 @@ class HorizontalProductContainer extends StatelessWidget {
                       height: 45,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.green.shade900,
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
@@ -105,7 +132,16 @@ class HorizontalProductContainer extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          addItemToCart(
+                            CartItem(
+                              name: widget.product.productName,
+                              price: widget.product.productPrice,
+                              productImageUrl:
+                                  widget.product.productImageUrl[0],
+                            ),
+                          );
+                        },
                         child: const Text('Add to Cart'),
                       ),
                     ),

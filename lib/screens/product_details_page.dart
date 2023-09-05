@@ -1,6 +1,7 @@
+import 'package:e_commerce_project/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
-import '../models/products.dart';
+import '../models/products_model.dart';
 import 'package:share/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -22,6 +23,25 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       '$productTitle\n$productDescription\n$productImgUrl',
       subject: 'Check out this product!',
     );
+  }
+
+  addItemToCart(CartItem newItem) {
+    bool itemExists =
+        CartItem.cartItems.any((item) => item.name == newItem.name);
+    if (itemExists) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('The Product is already in the Cart!'),
+        ),
+      );
+    } else {
+      CartItem.cartItems.add(newItem);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product added to the cart successfully!'),
+        ),
+      );
+    }
   }
 
   @override
@@ -71,7 +91,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       body: Column(
         children: [
           // Large Product Image
-          Container(
+          SizedBox(
             height: 300, // Set a fixed height for the large image
             child: CachedNetworkImage(
               imageUrl: widget.product.productImageUrl[_selectedImageIndex],
@@ -86,7 +106,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
 
           // Small Product Images (PageView)
-          Container(
+          SizedBox(
             height: 100, // Set the height for the small images area
             child: PageView.builder(
               itemCount: widget.product.productImageUrl.length,
@@ -200,7 +220,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                addItemToCart(
+                                  CartItem(
+                                    name: widget.product.productName,
+                                    price: widget.product.productPrice,
+                                    productImageUrl:
+                                        widget.product.productImageUrl[0],
+                                  ),
+                                );
+                              },
                               icon: const Icon(Icons.shopping_cart,
                                   color: Colors.white),
                               label: const Text(

@@ -1,9 +1,8 @@
-import 'package:e_commerce_project/models/products.dart';
-import 'package:e_commerce_project/screens/home_page.dart';
+import 'package:e_commerce_project/models/products_model.dart';
 import 'package:e_commerce_project/screens/products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/category.dart';
+import '../models/category_model.dart';
 
 class ProductCategoriesPage extends StatefulWidget {
   final List<Category> categories;
@@ -62,7 +61,16 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                     const SizedBox(height: 20.0),
                     DropdownButton<String>(
                       iconSize: 32,
+                      hint: const Text('Select a subcategory'),
+                      dropdownColor: Colors.grey.shade400,
+                      isExpanded: true,
+                      borderRadius: BorderRadius.circular(10),
+                      icon: Icon(
+                        Icons.arrow_downward,
+                        color: Colors.green.shade900,
+                      ),
                       value: selectedSubcategory,
+                      enableFeedback: true,
                       onChanged: (newValue) {
                         setState(() {
                           selectedSubcategory = newValue;
@@ -74,6 +82,20 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                           child: Text(subcategory),
                         );
                       }).toList(),
+                      selectedItemBuilder: (BuildContext context) =>
+                          subcategories!
+                              .map<Widget>((e) => Center(
+                                    child: Text(
+                                      e,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.amber,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
                     ),
                     const SizedBox(height: 16.0),
                     ElevatedButton(
@@ -115,16 +137,18 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 10),
             const Text(
               'Select a Category:',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
                 physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
+                  mainAxisExtent: 80,
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
@@ -168,7 +192,6 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                 },
               ),
             ),
-            const SizedBox(height: 20.0),
           ],
         ),
       ),

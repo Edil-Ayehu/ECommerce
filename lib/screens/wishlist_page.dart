@@ -3,9 +3,20 @@ import 'package:e_commerce_project/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import '../models/products.dart';
+import '../models/products_model.dart';
 
-class WishlistPage extends StatelessWidget {
+class WishlistPage extends StatefulWidget {
+  @override
+  State<WishlistPage> createState() => _WishlistPageState();
+}
+
+class _WishlistPageState extends State<WishlistPage> {
+  Future<void> _refreshData() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final _favoriteProducts =
@@ -31,19 +42,22 @@ class WishlistPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back)),
         foregroundColor: Colors.black,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const SizedBox(height: 15),
-            _favoriteProducts.isEmpty ? Container() : CustomSearchBar(),
-            const SizedBox(height: 15),
-            ProductWidget(
-              products: _favoriteProducts,
-              onlyFavorite: true,
-            ),
-          ],
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const SizedBox(height: 15),
+              _favoriteProducts.isEmpty ? Container() : CustomSearchBar(),
+              const SizedBox(height: 15),
+              ProductWidget(
+                products: _favoriteProducts,
+                onlyFavorite: true,
+              ),
+            ],
+          ),
         ),
       ),
     );
