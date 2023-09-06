@@ -48,11 +48,15 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
         onTap: () {
           addItemToCart(
             CartItem(
+              id: CartItem.nextItemId,
               name: widget.product.productName,
               price: widget.product.productPrice,
               productImageUrl: widget.product.productImageUrl[0],
             ),
           );
+          setState(() {
+            CartItem.nextItemId++;
+          });
         },
         child: Icon(
           widget.icon,

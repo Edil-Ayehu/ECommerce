@@ -5,9 +5,14 @@ import 'package:e_commerce_project/widgets/widgets.dart';
 import '../models/products_model.dart';
 import 'home_page.dart';
 
-class AllNewArrivalProducts extends StatelessWidget {
+class AllNewArrivalProducts extends StatefulWidget {
   const AllNewArrivalProducts({Key? key}) : super(key: key);
 
+  @override
+  State<AllNewArrivalProducts> createState() => _AllNewArrivalProductsState();
+}
+
+class _AllNewArrivalProductsState extends State<AllNewArrivalProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +53,50 @@ class AllNewArrivalProducts extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomSearchBar(),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Row(
+                children: [
+                  const Text(
+                    'Sort by',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      Product.products.sort((a, b) => a.productName
+                          .toLowerCase()
+                          .compareTo(b.productName.toLowerCase()));
+                      setState(() {});
+                    },
+                    child: const Text('Name'),
+                  ),
+                  const SizedBox(width: 4),
+                  ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    onPressed: () {
+                      Product.products.sort(
+                          (a, b) => a.productPrice.compareTo(b.productPrice));
+                      setState(() {});
+                    },
+                    child: const Text(
+                      'Price',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             Expanded(

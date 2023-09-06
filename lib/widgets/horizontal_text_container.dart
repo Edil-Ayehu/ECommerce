@@ -27,7 +27,7 @@ class HorizontalTextContainer extends StatelessWidget {
           GestureDetector(
             onTap: onTap,
             child: Text(
-              'See all',
+              'More',
               style: TextStyle(
                 color: Colors.green.shade900,
                 fontWeight: FontWeight.bold,

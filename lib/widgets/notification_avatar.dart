@@ -4,12 +4,14 @@ class NotificationAvatar extends StatelessWidget {
   final int counter;
   final IconData icon;
   final Color bgColor;
+  final Color iconColor;
 
   const NotificationAvatar({
     super.key,
     required this.counter,
     required this.icon,
     this.bgColor = Colors.white,
+    this.iconColor = Colors.black,
   });
 
   @override
@@ -21,7 +23,7 @@ class NotificationAvatar extends StatelessWidget {
           backgroundColor: bgColor,
           child: Icon(
             icon,
-            color: Colors.black,
+            color: iconColor,
             size: 28,
           ),
         ),

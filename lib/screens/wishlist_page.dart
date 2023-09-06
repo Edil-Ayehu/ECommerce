@@ -23,10 +23,10 @@ class _WishlistPageState extends State<WishlistPage> {
         Product.products.where((element) => element.isFavorite).toList();
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
-        elevation: 2,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
@@ -44,8 +44,15 @@ class _WishlistPageState extends State<WishlistPage> {
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(28),
+              topLeft: Radius.circular(28),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

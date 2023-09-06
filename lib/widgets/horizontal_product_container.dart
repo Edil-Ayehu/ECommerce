@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../models/models.dart';
 import '../models/products_model.dart';
@@ -73,11 +74,8 @@ class _HorizontalProductContainerState
                       image: AssetImage('images/error1.jpg'),
                       fit: BoxFit.cover,
                     ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                      strokeWidth: 5,
-                      value: 30,
+                    placeholder: (context, url) => SpinKitCircle(
+                      color: Colors.green.shade900,
                     ),
                   ),
                 ),
@@ -135,12 +133,16 @@ class _HorizontalProductContainerState
                         onPressed: () {
                           addItemToCart(
                             CartItem(
+                              id: CartItem.nextItemId,
                               name: widget.product.productName,
                               price: widget.product.productPrice,
                               productImageUrl:
                                   widget.product.productImageUrl[0],
                             ),
                           );
+                          setState(() {
+                            CartItem.nextItemId++;
+                          });
                         },
                         child: const Text('Add to Cart'),
                       ),

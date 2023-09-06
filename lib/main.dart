@@ -1,4 +1,5 @@
 import 'package:e_commerce_project/utilities/dismiss_keyboard.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.grey.shade200),
         ),
         title: 'Shemach',
-        home: const HomePage(),
+        home: IntroPage(),
       ),
     );
   }

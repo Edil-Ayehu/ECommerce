@@ -75,7 +75,7 @@ class VerticalProductContainer extends StatelessWidget {
                   ),
                   RoundedIconButton(
                     icon: Icons.add,
-                    backgroundeColor: Colors.green.shade900,
+                    backgroundeColor: Colors.black,
                     product: product,
                   ),
                 ],

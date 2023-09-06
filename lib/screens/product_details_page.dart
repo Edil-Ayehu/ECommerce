@@ -1,6 +1,7 @@
 import 'package:e_commerce_project/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../models/products_model.dart';
 import 'package:share/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -101,7 +102,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 image: AssetImage('images/error1.jpg'),
                 fit: BoxFit.cover,
               ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
+              placeholder: (context, url) => SpinKitCircle(
+                color: Colors.green.shade900,
+              ),
             ),
           ),
 
@@ -135,8 +138,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           image: AssetImage('images/error1.jpg'),
                           fit: BoxFit.cover,
                         ),
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
+                        placeholder: (context, url) => SpinKitCircle(
+                          color: Colors.green.shade900,
+                        ),
                       ),
                     ),
                   ),
@@ -223,12 +227,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               onPressed: () {
                                 addItemToCart(
                                   CartItem(
+                                    id: CartItem.nextItemId,
                                     name: widget.product.productName,
                                     price: widget.product.productPrice,
                                     productImageUrl:
                                         widget.product.productImageUrl[0],
                                   ),
                                 );
+                                setState(() {
+                                  CartItem.nextItemId++;
+                                });
                               },
                               icon: const Icon(Icons.shopping_cart,
                                   color: Colors.white),
