@@ -37,7 +37,7 @@ class CustomBottonNavBar extends StatelessWidget {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {
-              Get.to(WishlistPage());
+              Get.to(const WishlistPage());
             },
             icon: const Icon(
               Icons.favorite,

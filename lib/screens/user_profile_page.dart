@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:e_commerce_project/widgets/widgets.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);

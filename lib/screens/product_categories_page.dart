@@ -6,7 +6,7 @@ import '../models/category_model.dart';
 
 class ProductCategoriesPage extends StatefulWidget {
   final List<Category> categories;
-  ProductCategoriesPage({required this.categories});
+  const ProductCategoriesPage({super.key, required this.categories});
 
   @override
   _ProductCategoriesPageState createState() => _ProductCategoriesPageState();

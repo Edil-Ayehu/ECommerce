@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:e_commerce_project/screens/screens.dart';
 
 class HorizontalTextContainer extends StatelessWidget {
   final Function() onTap;
@@ -19,7 +17,7 @@ class HorizontalTextContainer extends StatelessWidget {
         children: [
           Text(
             titleText,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),

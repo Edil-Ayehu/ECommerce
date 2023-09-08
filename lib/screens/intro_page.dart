@@ -73,6 +73,8 @@ class IntroPage extends StatelessWidget {
     ),
   ];
 
+  IntroPage({super.key});
+
   void onDone(context) async {
     Navigator.pushReplacement(
       context,

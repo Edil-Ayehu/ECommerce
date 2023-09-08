@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../models/models.dart';
 
 class RoundedIconButton extends StatefulWidget {
@@ -7,8 +7,9 @@ class RoundedIconButton extends StatefulWidget {
   final Color backgroundeColor;
   final Product product;
 
-  RoundedIconButton(
-      {required this.icon,
+  const RoundedIconButton(
+      {super.key,
+      required this.icon,
       required this.backgroundeColor,
       required this.product});
 
@@ -21,17 +22,19 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
     bool itemExists =
         CartItem.cartItems.any((item) => item.name == newItem.name);
     if (itemExists) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The Product is already in the Cart!'),
-        ),
+      Fluttertoast.showToast(
+        msg: "${newItem.name} is already in the cart!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
       );
     } else {
       CartItem.cartItems.add(newItem);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Product added to the cart successfully!'),
-        ),
+      Fluttertoast.showToast(
+        msg: "${newItem.name} added to the cart successfully!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.black,
       );
     }
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class HeroCarouselCard extends StatelessWidget {
   final String productImageUrl;
 
-  HeroCarouselCard({required this.productImageUrl});
+  const HeroCarouselCard({super.key, required this.productImageUrl});
 
   @override
   Widget build(BuildContext context) {

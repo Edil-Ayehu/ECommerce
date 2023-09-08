@@ -2,6 +2,7 @@ import 'package:e_commerce_project/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../models/products_model.dart';
 import 'package:share/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,7 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class ProductDetailsPage extends StatefulWidget {
   final Product product;
 
-  ProductDetailsPage({required this.product});
+  const ProductDetailsPage({super.key, required this.product});
 
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
@@ -30,17 +31,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     bool itemExists =
         CartItem.cartItems.any((item) => item.name == newItem.name);
     if (itemExists) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The Product is already in the Cart!'),
-        ),
+      Fluttertoast.showToast(
+        msg: "${newItem.name} is already in the cart!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
       );
     } else {
       CartItem.cartItems.add(newItem);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Product added to the cart successfully!'),
-        ),
+      Fluttertoast.showToast(
+        msg: "${newItem.name} added to the cart successfully!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.black,
       );
     }
   }
@@ -218,51 +221,50 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       Expanded(
                         child: SizedBox(
                           height: 50,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                              ),
-                              onPressed: () {
-                                addItemToCart(
-                                  CartItem(
-                                    id: CartItem.nextItemId,
-                                    name: widget.product.productName,
-                                    price: widget.product.productPrice,
-                                    productImageUrl:
-                                        widget.product.productImageUrl[0],
-                                  ),
-                                );
-                                setState(() {
-                                  CartItem.nextItemId++;
-                                });
-                              },
-                              icon: const Icon(Icons.shopping_cart,
-                                  color: Colors.white),
-                              label: const Text(
-                                'Add to Cart',
-                                style: TextStyle(),
-                              ),
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                            ),
+                            onPressed: () {
+                              addItemToCart(
+                                CartItem(
+                                  id: CartItem.nextItemId,
+                                  name: widget.product.productName,
+                                  price: widget.product.productPrice,
+                                  productImageUrl:
+                                      widget.product.productImageUrl[0],
+                                ),
+                              );
+                              setState(() {
+                                CartItem.nextItemId++;
+                              });
+                            },
+                            icon: const Icon(Icons.shopping_cart,
+                                color: Colors.white),
+                            label: const Text(
+                              'Add to Cart',
+                              style: TextStyle(),
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: SizedBox(
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green.shade900,
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              //backgroundColor: Colors.green.shade900,
+                              side: const BorderSide(
+                                color: Colors.black,
+                                width: 1,
                               ),
-                              onPressed: () {},
-                              child: const Text(
-                                'Buy Now',
-                                style: TextStyle(),
-                              ),
+                              backgroundColor: Colors.white,
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              'Buy Now',
+                              style: TextStyle(color: Colors.black),
                             ),
                           ),
                         ),

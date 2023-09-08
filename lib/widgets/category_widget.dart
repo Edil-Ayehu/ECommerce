@@ -20,7 +20,7 @@ class CategoryWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
-          //border: Border.all(color: Colors.grey.shade300, width: 1),
+          // border: Border.all(color: Colors.grey.shade300, width: 10),
         ),
         child: Text(
           categoryName,

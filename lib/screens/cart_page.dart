@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_project/screens/home_page.dart';
+import 'package:e_commerce_project/screens/new_products.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../widgets/notification_avatar.dart';
 
 class CartPage extends StatefulWidget {
   final List<CartItem> cartItems;
@@ -35,6 +39,14 @@ class _CartPageState extends State<CartPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text('My Cart'),
+        actions: [
+          NotificationAvatar(
+            counter: widget.cartItems.length,
+            icon: Icons.shopping_cart,
+            bgColor: Colors.grey.shade200,
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: widget.cartItems.isEmpty
           ? Container(
@@ -54,7 +66,7 @@ class _CartPageState extends State<CartPage> {
                     fit: BoxFit.cover,
                   ),
                   const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Your cart is currently empty!',
                     style: TextStyle(
                       fontSize: 22,
@@ -109,126 +121,142 @@ class _CartPageState extends State<CartPage> {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final cartItem = widget.cartItems[index];
-                    return Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        margin: const EdgeInsets.only(bottom: 5),
-                        height: 130,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
+                    return GestureDetector(
+                      onTap: () {
+                        //Get.to(ProductDetailsPage(product: cartItem));
+                      },
+                      child: Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: CachedNetworkImage(
-                                  imageUrl: cartItem.productImageUrl,
-                                  fit: BoxFit.cover,
-                                  height: 120,
-                                  errorWidget: (context, url, error) =>
-                                      const Image(
-                                    image: AssetImage('images/error1.jpg'),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          margin: const EdgeInsets.only(bottom: 5),
+                          height: 130,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: CachedNetworkImage(
+                                    imageUrl: cartItem.productImageUrl,
                                     fit: BoxFit.cover,
-                                  ),
-                                  placeholder: (context, url) => SpinKitCircle(
-                                    color: Colors.green.shade900,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    cartItem.name,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 18,
+                                    height: 120,
+                                    errorWidget: (context, url, error) =>
+                                        const Image(
+                                      image: AssetImage('images/error1.jpg'),
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                  Text(
-                                    '\$${cartItem.price.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                    placeholder: (context, url) =>
+                                        SpinKitCircle(
                                       color: Colors.green.shade900,
                                     ),
                                   ),
-                                  const Spacer(),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cartItem.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        widget.cartItems.removeAt(index);
-                                      });
-                                    },
-                                    child: const Text('Remove'),
+                                    Text(
+                                      '\$${cartItem.price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green.shade900,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.cartItems.removeAt(index);
+                                          Fluttertoast.showToast(
+                                            msg:
+                                                "Product removed from the cart successfully!",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            backgroundColor: Colors.black,
+                                          );
+                                        });
+                                      },
+                                      child: const Text('Remove'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.remove,
+                                            color: Colors.black),
+                                        onPressed: () {
+                                          setState(() {
+                                            if (widget
+                                                    .cartItems[index].quantity >
+                                                1) {
+                                              widget
+                                                  .cartItems[index].quantity--;
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    '${cartItem.quantity}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.add,
+                                            color: Colors.black),
+                                        onPressed: () {
+                                          setState(() {
+                                            widget.cartItems[index].quantity++;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Card(
-                                  elevation: 4,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.remove,
-                                          color: Colors.black),
-                                      onPressed: () {
-                                        setState(() {
-                                          if (widget.cartItems[index].quantity >
-                                              1) {
-                                            widget.cartItems[index].quantity--;
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  '${cartItem.quantity}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 4,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.add,
-                                          color: Colors.black),
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.cartItems[index].quantity++;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -250,7 +278,7 @@ class _CartPageState extends State<CartPage> {
                   const Text(
                     'Subtotal:',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      //fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
@@ -270,7 +298,7 @@ class _CartPageState extends State<CartPage> {
                   Text(
                     'Tax (${(taxRate * 100).toStringAsFixed(0)}%):',
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                      //fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),

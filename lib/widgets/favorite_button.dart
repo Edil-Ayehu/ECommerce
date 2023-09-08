@@ -7,7 +7,8 @@ class FavoriteButton extends StatefulWidget {
   final Color bgColor;
   final Product product;
 
-  FavoriteButton({
+  const FavoriteButton({
+    super.key,
     this.radius = 20,
     this.bgColor = Colors.white,
     required this.product,

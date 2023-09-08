@@ -13,6 +13,7 @@ class DynamicWidthContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
       ),
       child: Text(
         text,

@@ -4,22 +4,22 @@ class Category extends Equatable {
   final String name;
   final List<String> subCategories;
 
-  Category({required this.name, required this.subCategories});
+  const Category({required this.name, required this.subCategories});
 
   @override
   List<Object?> get props => [name, subCategories];
 
-  static final List<Category> categories = [
+  static const List<Category> categories = [
     Category(
         name: 'Electronics',
-        subCategories: const ['TV', 'Phone', 'Laptop', 'Headset', 'Tablet']),
-    Category(name: 'Clothing', subCategories: const ['Men', 'Women', 'Kids']),
-    Category(name: 'Furniture', subCategories: const []),
-    Category(name: 'Automotive', subCategories: const []),
-    Category(name: 'Pet Supplies', subCategories: const ['Dog', 'Cat']),
-    Category(name: 'Jewelry', subCategories: const []),
-    Category(name: 'Books', subCategories: const []),
-    Category(name: 'Sports & Fitness', subCategories: const []),
-    Category(name: 'Toys & Games', subCategories: const []),
+        subCategories: ['TV', 'Phone', 'Laptop', 'Headset', 'Tablet']),
+    Category(name: 'Clothing', subCategories: ['Men', 'Women', 'Kids']),
+    Category(name: 'Furniture', subCategories: []),
+    Category(name: 'Automotive', subCategories: ['Car', 'Train', 'Bicycle']),
+    Category(name: 'Pet Supplies', subCategories: ['Dog', 'Cat']),
+    Category(name: 'Jewelry', subCategories: []),
+    Category(name: 'Books', subCategories: []),
+    Category(name: 'Sports & Fitness', subCategories: []),
+    Category(name: 'Toys & Games', subCategories: []),
   ];
 }

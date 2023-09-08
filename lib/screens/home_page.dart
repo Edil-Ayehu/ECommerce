@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: 45,
+                height: 50,
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemCount: Category.categories.length,

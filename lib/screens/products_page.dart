@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/products_model.dart';
@@ -100,6 +99,10 @@ class _ProductsPageState extends State<ProductsPage> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
+                            side: const BorderSide(
+                              color: Colors.black,
+                              width: 1,
+                            ),
                           ),
                           onPressed: () {
                             widget.products.sort((a, b) =>

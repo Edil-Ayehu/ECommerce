@@ -7,7 +7,8 @@ import '../models/products_model.dart';
 class VerticalProductContainer extends StatelessWidget {
   final Product product;
 
-  VerticalProductContainer({
+  const VerticalProductContainer({
+    super.key,
     required this.product,
   });
 

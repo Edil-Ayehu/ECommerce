@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../models/cart_item_model.dart';
 
 class CartContainer extends StatefulWidget {
   final List<CartItem> cartItems;
 
-  CartContainer({required this.cartItems});
+  const CartContainer({super.key, required this.cartItems});
 
   @override
   State<CartContainer> createState() => _CartContainerState();
@@ -44,7 +43,7 @@ class _CartContainerState extends State<CartContainer> {
                   children: [
                     Text(
                       widget.cartItems[1].name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontSize: 18,
@@ -64,7 +63,7 @@ class _CartContainerState extends State<CartContainer> {
                         ),
                         Text(
                           1.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
