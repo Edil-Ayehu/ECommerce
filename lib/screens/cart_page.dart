@@ -133,7 +133,7 @@ class _CartPageState extends State<CartPage> {
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           margin: const EdgeInsets.only(bottom: 5),
-                          height: 130,
+                          height: 120,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
@@ -141,6 +141,7 @@ class _CartPageState extends State<CartPage> {
                           child: Row(
                             children: [
                               Expanded(
+                                flex: 2,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: CachedNetworkImage(
@@ -161,99 +162,131 @@ class _CartPageState extends State<CartPage> {
                               ),
                               const SizedBox(width: 5),
                               Expanded(
+                                flex: 3,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      cartItem.name,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Text(
-                                      '\$${cartItem.price.toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green.shade900,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              cartItem.name,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            Text(
+                                              '\$${cartItem.price.toStringAsFixed(2)}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green.shade900,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              widget.cartItems.removeAt(index);
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    "Product removed from the cart successfully!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                backgroundColor: Colors.black,
+                                              );
+                                            });
+                                          },
+                                          icon: const Icon(Icons.delete),
+                                        ),
+                                      ],
                                     ),
                                     const Spacer(),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.cartItems.removeAt(index);
-                                          Fluttertoast.showToast(
-                                            msg:
-                                                "Product removed from the cart successfully!",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            backgroundColor: Colors.black,
-                                          );
-                                        });
-                                      },
-                                      child: const Text('Remove'),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            borderRadius:
+                                                BorderRadius.circular(28),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                elevation: 4,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  child: IconButton(
+                                                    icon: const Icon(
+                                                        Icons.remove,
+                                                        color: Colors.black),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        if (widget
+                                                                .cartItems[
+                                                                    index]
+                                                                .quantity >
+                                                            1) {
+                                                          widget
+                                                              .cartItems[index]
+                                                              .quantity--;
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Text(
+                                                '${cartItem.quantity}',
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Card(
+                                                elevation: 4,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  child: IconButton(
+                                                    icon: const Icon(Icons.add,
+                                                        color: Colors.black),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        widget.cartItems[index]
+                                                            .quantity++;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        //const SizedBox(width: 10),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      child: IconButton(
-                                        icon: const Icon(Icons.remove,
-                                            color: Colors.black),
-                                        onPressed: () {
-                                          setState(() {
-                                            if (widget
-                                                    .cartItems[index].quantity >
-                                                1) {
-                                              widget
-                                                  .cartItems[index].quantity--;
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${cartItem.quantity}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      child: IconButton(
-                                        icon: const Icon(Icons.add,
-                                            color: Colors.black),
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.cartItems[index].quantity++;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),

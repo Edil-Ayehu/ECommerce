@@ -50,8 +50,8 @@ class _AllNewArrivalProductsState extends State<AllNewArrivalProducts> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomSearchBar(),
             ),
             const SizedBox(height: 10),

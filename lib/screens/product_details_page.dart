@@ -28,8 +28,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   addItemToCart(CartItem newItem) {
-    bool itemExists =
-        CartItem.cartItems.any((item) => item.name == newItem.name);
+    bool itemExists = CartItem.cartItems.any((item) => item.id == newItem.id);
     if (itemExists) {
       Fluttertoast.showToast(
         msg: "${newItem.name} is already in the cart!",
@@ -96,24 +95,26 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         children: [
           // Large Product Image
           SizedBox(
-            height: 300, // Set a fixed height for the large image
-            child: CachedNetworkImage(
-              imageUrl: widget.product.productImageUrl[_selectedImageIndex],
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorWidget: (context, url, error) => const Image(
-                image: AssetImage('images/error1.jpg'),
+            height: 300,
+            child: InteractiveViewer(
+              child: CachedNetworkImage(
+                imageUrl: widget.product.productImageUrl[_selectedImageIndex],
                 fit: BoxFit.cover,
-              ),
-              placeholder: (context, url) => SpinKitCircle(
-                color: Colors.green.shade900,
+                width: double.infinity,
+                errorWidget: (context, url, error) => const Image(
+                  image: AssetImage('images/error1.jpg'),
+                  fit: BoxFit.cover,
+                ),
+                placeholder: (context, url) => SpinKitCircle(
+                  color: Colors.green.shade900,
+                ),
               ),
             ),
           ),
 
           // Small Product Images (PageView)
           SizedBox(
-            height: 100, // Set the height for the small images area
+            height: 85,
             child: PageView.builder(
               itemCount: widget.product.productImageUrl.length,
               controller: PageController(viewportFraction: 0.2),
@@ -159,8 +160,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(22),
-                  topRight: Radius.circular(22),
+                  topLeft: Radius.circular(28),
+                  topRight: Radius.circular(28),
                 ),
               ),
               child: Column(
@@ -188,12 +189,51 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.green.shade900),
-                      Text(
-                        '4.3 (130 Reviews)',
-                        style: TextStyle(
-                          color: Colors.green.shade900,
-                          fontWeight: FontWeight.bold,
+                      Visibility(
+                        visible: widget.product.amount <= 5,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                          child: Text(
+                            'Only ${widget.product.amount} Left',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.grey.shade300,
+                          ),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 20,
+                            ),
+                            Text(
+                              '4.3 (130 Reviews)',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -228,16 +268,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             onPressed: () {
                               addItemToCart(
                                 CartItem(
-                                  id: CartItem.nextItemId,
+                                  id: widget.product.productId,
                                   name: widget.product.productName,
                                   price: widget.product.productPrice,
                                   productImageUrl:
                                       widget.product.productImageUrl[0],
                                 ),
                               );
-                              setState(() {
-                                CartItem.nextItemId++;
-                              });
                             },
                             icon: const Icon(Icons.shopping_cart,
                                 color: Colors.white),

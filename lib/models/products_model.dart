@@ -9,6 +9,7 @@ class Product extends Equatable {
   final String productCategory;
   final String productSubCategory;
   bool isFavorite;
+  final int amount;
 
   Product({
     required this.productId,
@@ -19,6 +20,7 @@ class Product extends Equatable {
     required this.productCategory,
     required this.productSubCategory,
     this.isFavorite = false,
+    required this.amount,
   });
 
   @override
@@ -45,6 +47,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Laptop',
+      amount: 4,
     ),
     Product(
       productId: 'product-002',
@@ -58,6 +61,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Phone',
+      amount: 80,
     ),
     Product(
       productId: 'product-003',
@@ -71,6 +75,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Headset',
+      amount: 5,
     ),
     Product(
       productId: 'product-004',
@@ -82,7 +87,8 @@ class Product extends Equatable {
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Clothing',
-      productSubCategory: 'Men',
+      productSubCategory: 'Men\'s Shoes',
+      amount: 80,
     ),
     Product(
       productId: 'product-005',
@@ -94,7 +100,8 @@ class Product extends Equatable {
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Clothing',
-      productSubCategory: 'Men',
+      productSubCategory: 'Men\'s Shoes',
+      amount: 80,
     ),
     Product(
       productId: 'product-006',
@@ -108,6 +115,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Pet Supplies',
       productSubCategory: 'Dog',
+      amount: 80,
     ),
     Product(
       productId: 'product-007',
@@ -121,6 +129,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Pet Supplies',
       productSubCategory: 'Dog',
+      amount: 80,
     ),
     Product(
       productId: 'product-008',
@@ -135,6 +144,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Pet Supplies',
       productSubCategory: 'Cat',
+      amount: 80,
     ),
     Product(
       productId: 'product-009',
@@ -148,6 +158,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Laptop',
+      amount: 80,
     ),
     Product(
       productId: 'product-010',
@@ -163,6 +174,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Phone',
+      amount: 80,
     ),
     Product(
       productId: 'product-011',
@@ -177,6 +189,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Phone',
+      amount: 80,
     ),
     Product(
       productId: 'product-012',
@@ -191,6 +204,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Laptop',
+      amount: 80,
     ),
     Product(
       productId: 'product-013',
@@ -206,6 +220,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Phone',
+      amount: 80,
     ),
     Product(
       productId: 'product-014',
@@ -219,6 +234,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Headset',
+      amount: 80,
     ),
     Product(
       productId: 'product-015',
@@ -232,6 +248,7 @@ class Product extends Equatable {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Electronics',
       productSubCategory: 'Tablet',
+      amount: 80,
     ),
     Product(
       productId: 'product-016',
@@ -243,7 +260,8 @@ class Product extends Equatable {
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Clothing',
-      productSubCategory: 'Kids',
+      productSubCategory: 'Kids\' Shoes',
+      amount: 80,
     ),
     Product(
       productId: 'product-017',
@@ -257,7 +275,8 @@ class Product extends Equatable {
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Clothing',
-      productSubCategory: 'Kids',
+      productSubCategory: 'Kids\' Shoes',
+      amount: 80,
     ),
     Product(
       productId: 'product-018',
@@ -271,7 +290,8 @@ class Product extends Equatable {
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       productCategory: 'Clothing',
-      productSubCategory: 'Kids',
+      productSubCategory: 'Kids\' Shoes',
+      amount: 80,
     ),
     Product(
       productId: 'product-019',
@@ -284,8 +304,9 @@ class Product extends Equatable {
       productPrice: 5430,
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      productCategory: 'Automotive',
-      productSubCategory: 'Car',
+      productCategory: 'Vehicles',
+      productSubCategory: 'Cars',
+      amount: 80,
     ),
     Product(
       productId: 'product-020',
@@ -299,8 +320,9 @@ class Product extends Equatable {
       productPrice: 3300,
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      productCategory: 'Automotive',
-      productSubCategory: 'Car',
+      productCategory: 'Vehicles',
+      productSubCategory: 'Cars',
+      amount: 80,
     ),
     Product(
       productId: 'product-021',
@@ -313,8 +335,9 @@ class Product extends Equatable {
       productPrice: 8430,
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      productCategory: 'Automotive',
-      productSubCategory: 'Car',
+      productCategory: 'Vehicles',
+      productSubCategory: 'Cars',
+      amount: 80,
     ),
     Product(
       productId: 'product-022',
@@ -326,8 +349,9 @@ class Product extends Equatable {
       productPrice: 430,
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      productCategory: 'Automotive',
-      productSubCategory: 'Bicycle',
+      productCategory: 'Vehicles',
+      productSubCategory: 'Bicycles',
+      amount: 80,
     ),
     Product(
       productId: 'product-023',
@@ -340,8 +364,9 @@ class Product extends Equatable {
       productPrice: 3410,
       productDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      productCategory: 'Automotive',
-      productSubCategory: 'Bicycle',
+      productCategory: 'Vehicles',
+      productSubCategory: 'Bicycles',
+      amount: 2,
     ),
   ];
 }

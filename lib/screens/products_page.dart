@@ -1,13 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/products_model.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 
 class ProductsPage extends StatefulWidget {
   final List<Product> products;
 
-  const ProductsPage({super.key, required this.products});
+  const ProductsPage({
+    super.key,
+    required this.products,
+  });
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();

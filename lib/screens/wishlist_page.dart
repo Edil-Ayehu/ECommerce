@@ -58,7 +58,7 @@ class _WishlistPageState extends State<WishlistPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               const SizedBox(height: 15),
-              _favoriteProducts.isEmpty ? Container() : const CustomSearchBar(),
+              _favoriteProducts.isEmpty ? Container() : CustomSearchBar(),
               const SizedBox(height: 15),
               ProductWidget(
                 products: _favoriteProducts,

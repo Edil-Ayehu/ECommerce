@@ -168,7 +168,8 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                               products: Product.products
                                   .where((product) =>
                                       product.productCategory == category.name)
-                                  .toList()));
+                                  .toList(),
+                            ));
                     },
                     child: Container(
                       alignment: Alignment.center,

@@ -19,8 +19,7 @@ class RoundedIconButton extends StatefulWidget {
 
 class _RoundedIconButtonState extends State<RoundedIconButton> {
   addItemToCart(CartItem newItem) {
-    bool itemExists =
-        CartItem.cartItems.any((item) => item.name == newItem.name);
+    bool itemExists = CartItem.cartItems.any((item) => item.id == newItem.id);
     if (itemExists) {
       Fluttertoast.showToast(
         msg: "${newItem.name} is already in the cart!",
@@ -51,15 +50,12 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
         onTap: () {
           addItemToCart(
             CartItem(
-              id: CartItem.nextItemId,
+              id: widget.product.productId,
               name: widget.product.productName,
               price: widget.product.productPrice,
               productImageUrl: widget.product.productImageUrl[0],
             ),
           );
-          setState(() {
-            CartItem.nextItemId++;
-          });
         },
         child: Icon(
           widget.icon,

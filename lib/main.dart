@@ -21,17 +21,18 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.grey.shade200,
           primarySwatch: Colors.green,
           appBarTheme: AppBarTheme(
-              systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarIconBrightness: Brightness.dark,
-                statusBarBrightness: Brightness.light,
-                statusBarColor: Colors.transparent,
-              ),
-              centerTitle: true,
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.grey.shade200),
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+              statusBarColor: Colors.transparent,
+            ),
+            centerTitle: true,
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.grey.shade100,
+          ),
         ),
         title: 'Shemach',
-        home: IntroPage(),
+        home: const HomePage(),
       ),
     );
   }

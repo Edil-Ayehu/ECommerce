@@ -18,7 +18,7 @@ class HorizontalTextContainer extends StatelessWidget {
           Text(
             titleText,
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
               fontSize: 18,
             ),
           ),

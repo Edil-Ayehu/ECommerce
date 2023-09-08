@@ -91,8 +91,8 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: CustomSearchBar(),
               ),
               const SizedBox(height: 20),
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     Get.to(
                         ProductCategoriesPage(categories: Category.categories));
                   },
-                  titleText: 'Categories',
+                  titleText: 'Shop by Category',
                 ),
               ),
               SizedBox(
