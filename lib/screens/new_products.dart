@@ -1,70 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-export 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 import '../models/products_model.dart';
 import 'home_page.dart';
 
-class AllNewArrivalProducts extends StatefulWidget {
-  const AllNewArrivalProducts({Key? key}) : super(key: key);
+class NewProductsPage extends StatefulWidget {
+  const NewProductsPage({Key? key}) : super(key: key);
 
   @override
-  State<AllNewArrivalProducts> createState() => _AllNewArrivalProductsState();
+  State<NewProductsPage> createState() => _NewProductsPageState();
 }
 
-class _AllNewArrivalProductsState extends State<AllNewArrivalProducts> {
+class _NewProductsPageState extends State<NewProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'New Products',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.displayMedium,
         ),
         leading: IconButton(
-            onPressed: () {
-              Get.to(const HomePage());
-            },
-            icon: const Icon(Icons.arrow_back)),
+          onPressed: () {
+            Get.to(const HomePage());
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
         foregroundColor: Colors.black,
       ),
       body: Container(
-        padding: const EdgeInsets.only(
-          right: 5,
-          left: 5,
-        ),
+        padding: const EdgeInsets.only(right: 5, left: 5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(28),
             topRight: Radius.circular(28),
           ),
-          color: Colors.grey.shade200,
+          color:
+              Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.grey.shade200,
         ),
         child: Column(
           children: [
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomSearchBar(),
+              child: CustomSearchBar(darkModeBgColor: const Color(0xFF2C2D30)),
             ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: Row(
                 children: [
-                  const Text(
+                  Text(
                     'Sort by',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: Get.isDarkMode ? Colors.white70 : Colors.black,
+                          fontSize: 18,
+                        ),
                   ),
                   const Spacer(),
                   ElevatedButton(
@@ -77,12 +78,21 @@ class _AllNewArrivalProductsState extends State<AllNewArrivalProducts> {
                           .compareTo(b.productName.toLowerCase()));
                       setState(() {});
                     },
-                    child: const Text('Name'),
+                    child: Text(
+                      'Name',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color:
+                                Get.isDarkMode ? Colors.white70 : Colors.white,
+                          ),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Get.isDarkMode ? Colors.white70 : Colors.white,
+                    ),
                     onPressed: () {
                       Product.products.sort(
                           (a, b) => a.productPrice.compareTo(b.productPrice));

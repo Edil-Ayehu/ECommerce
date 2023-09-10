@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HorizontalTextContainer extends StatelessWidget {
   final Function() onTap;
@@ -17,17 +18,17 @@ class HorizontalTextContainer extends StatelessWidget {
         children: [
           Text(
             titleText,
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 18,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                ),
           ),
           GestureDetector(
             onTap: onTap,
             child: Text(
               'More',
               style: TextStyle(
-                color: Colors.green.shade900,
+                color: Get.isDarkMode ? Colors.white70 : Colors.green.shade900,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

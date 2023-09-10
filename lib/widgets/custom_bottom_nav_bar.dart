@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:e_commerce_project/screens/screens.dart';
 import 'package:get/get.dart';
+import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/models/models.dart';
 
 class CustomBottonNavBar extends StatelessWidget {
@@ -11,7 +11,6 @@ class CustomBottonNavBar extends StatelessWidget {
     return BottomAppBar(
       height: 65,
       elevation: 6,
-      color: Colors.white,
       shape: const CircularNotchedRectangle(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -22,16 +21,15 @@ class CustomBottonNavBar extends StatelessWidget {
             },
             icon: const Icon(
               Icons.home,
-              color: Colors.black,
             ),
           ),
           IconButton(
             onPressed: () {
-              Get.to(ProductCategoriesPage(categories: Category.categories));
+              Get.to(
+                  const ProductCategoriesPage(categories: Category.categories));
             },
             icon: const Icon(
               Icons.category,
-              color: Colors.black,
             ),
           ),
           const SizedBox(width: 10),
@@ -41,7 +39,6 @@ class CustomBottonNavBar extends StatelessWidget {
             },
             icon: const Icon(
               Icons.favorite,
-              color: Colors.black,
             ),
           ),
           IconButton(
@@ -50,7 +47,6 @@ class CustomBottonNavBar extends StatelessWidget {
             },
             icon: const Icon(
               Icons.person,
-              color: Colors.black,
             ),
           ),
         ],

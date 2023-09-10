@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import '../models/products_model.dart';
 
 class VerticalProductContainer extends StatelessWidget {
@@ -18,11 +20,11 @@ class VerticalProductContainer extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           width: w / 2.2,
           height: 220,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -49,37 +51,46 @@ class VerticalProductContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.productName,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          '\$${product.productPrice}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.productName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 5),
+                          Text(
+                            '\$${product.productPrice}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  RoundedIconButton(
-                    icon: Icons.add,
-                    backgroundeColor: Colors.black,
-                    product: product,
-                  ),
-                ],
+                    RoundedIconButton(
+                      icon: Icons.add,
+                      backgroundColor: Get.isDarkMode
+                          ? const Color(0xFF2C2D30)
+                          : Colors.black,
+                      product: product,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -11,3 +11,6 @@ export 'dynamic_width_container.dart';
 export 'custom_bottom_nav_bar.dart';
 export 'my_drawer.dart';
 export 'cart_container.dart';
+export 'empty_cart_container.dart';
+export 'notification_avatar.dart';
+export 'horizontal_text_container.dart';

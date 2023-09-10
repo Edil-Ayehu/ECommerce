@@ -1,9 +1,9 @@
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../models/cart_item_model.dart';
 
 class CartContainer extends StatefulWidget {
-  final List<CartItem> cartItems;
+  final List<Product> cartItems;
 
   const CartContainer({super.key, required this.cartItems});
 
@@ -31,7 +31,7 @@ class _CartContainerState extends State<CartContainer> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                    imageUrl: widget.cartItems[1].productImageUrl,
+                    imageUrl: widget.cartItems[1].productImageUrl[0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -42,14 +42,14 @@ class _CartContainerState extends State<CartContainer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.cartItems[1].name,
+                      widget.cartItems[1].productName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontSize: 18,
                       ),
                     ),
-                    Text('\$${widget.cartItems[1].price}'),
+                    Text('\$${widget.cartItems[1].productPrice}'),
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/themes/themes.dart';
 import 'package:e_commerce_project/models/models.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -22,7 +23,11 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.isDarkMode
+                  ? Get.changeTheme(lightTheme)
+                  : Get.changeTheme(darkTheme);
+            },
             child: const ListTile(
               leading: Text(
                 'Light/Dark mode',

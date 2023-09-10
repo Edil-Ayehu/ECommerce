@@ -1,9 +1,9 @@
-import 'package:e_commerce_project/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../models/products_model.dart';
+import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -27,11 +27,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  addItemToCart(CartItem newItem) {
-    bool itemExists = CartItem.cartItems.any((item) => item.id == newItem.id);
+  addItemToCart(Product newItem) {
+    bool itemExists =
+        CartItem.cartItems.any((item) => item.productId == newItem.productId);
     if (itemExists) {
       Fluttertoast.showToast(
-        msg: "${newItem.name} is already in the cart!",
+        msg: "${newItem.productName} is already in the cart!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.red,
@@ -39,7 +40,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     } else {
       CartItem.cartItems.add(newItem);
       Fluttertoast.showToast(
-        msg: "${newItem.name} added to the cart successfully!",
+        msg: "${newItem.productName} added to the cart successfully!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.black,
@@ -50,29 +51,31 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Get.isDarkMode ? Colors.white70 : Colors.grey.shade200,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
-        elevation: 2,
+        backgroundColor:
+            Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.grey.shade200,
+        elevation: Get.isDarkMode ? 0 : 2,
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Get.isDarkMode ? Colors.white70 : Colors.black,
           ),
         ),
-        title: const Text(
+        title: Text(
           'Product details',
-          style: TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.displayMedium,
         ),
         actions: [
           CircleAvatar(
             radius: 23,
-            backgroundColor: Colors.white,
+            backgroundColor:
+                Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
             child: IconButton(
               onPressed: () => shareProduct(
                 context,
@@ -80,13 +83,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 widget.product.productDescription,
                 widget.product.productImageUrl[0],
               ),
-              icon: const Icon(Icons.share, color: Colors.black),
+              icon: Icon(
+                Icons.share,
+                color: Get.isDarkMode ? Colors.white70 : Colors.black,
+              ),
             ),
           ),
           const SizedBox(width: 5),
           FavoriteButton(
             radius: 23,
             product: widget.product,
+            bgColor: Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
           ),
           const SizedBox(width: 8),
         ],
@@ -157,9 +164,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(28),
                   topRight: Radius.circular(28),
                 ),
@@ -167,26 +174,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         widget.product.productName,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                        ),
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
-                      Text(
-                        '\$${widget.product.productPrice}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22,
-                        ),
-                      ),
+                      Text('\$${widget.product.productPrice}',
+                          style: Theme.of(context).textTheme.displayMedium),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       Visibility(
@@ -203,10 +203,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           ),
                           child: Text(
                             'Only ${widget.product.amount} Left',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                       ),
@@ -219,19 +216,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             color: Colors.grey.shade300,
                           ),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.orange,
                               size: 20,
                             ),
                             Text(
                               '4.3 (130 Reviews)',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),
@@ -249,10 +243,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   const SizedBox(height: 4),
                   Text(
                     widget.product.productDescription,
-                    style: const TextStyle(
+                    style: TextStyle(
                       letterSpacing: 1.2,
-                      fontSize: 12,
-                      color: Colors.grey,
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
                     ),
                   ),
                   const Spacer(),
@@ -263,24 +257,32 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
+                              backgroundColor: Get.isDarkMode
+                                  ? const Color(0xFF2C2D30)
+                                  : Colors.black,
+                              side: BorderSide(
+                                color: Get.isDarkMode
+                                    ? Colors.white70
+                                    : Colors.transparent,
+                                width: 2,
+                              ),
                             ),
                             onPressed: () {
-                              addItemToCart(
-                                CartItem(
-                                  id: widget.product.productId,
-                                  name: widget.product.productName,
-                                  price: widget.product.productPrice,
-                                  productImageUrl:
-                                      widget.product.productImageUrl[0],
-                                ),
-                              );
+                              addItemToCart(widget.product);
                             },
-                            icon: const Icon(Icons.shopping_cart,
-                                color: Colors.white),
-                            label: const Text(
+                            icon: Icon(
+                              Icons.shopping_cart,
+                              color: Get.isDarkMode
+                                  ? Colors.white70
+                                  : Colors.white,
+                            ),
+                            label: Text(
                               'Add to Cart',
-                              style: TextStyle(),
+                              style: TextStyle(
+                                color: Get.isDarkMode
+                                    ? Colors.white70
+                                    : Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -296,7 +298,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                 color: Colors.black,
                                 width: 1,
                               ),
-                              backgroundColor: Colors.white,
+                              backgroundColor: Get.isDarkMode
+                                  ? Colors.white70
+                                  : Colors.white,
                             ),
                             onPressed: () {},
                             child: const Text(

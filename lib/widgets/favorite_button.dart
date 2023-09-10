@@ -1,5 +1,5 @@
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
-
 import '../models/products_model.dart';
 
 class FavoriteButton extends StatefulWidget {
@@ -19,27 +19,38 @@ class FavoriteButton extends StatefulWidget {
 }
 
 class _FavoriteButtonState extends State<FavoriteButton> {
+  void addItemToWishlist(Product newItem) {
+    WishlistItem.wishlistItems.add(newItem);
+  }
+
+  void removeItemFromWishlist(Product newItem) {
+    WishlistItem.wishlistItems.remove(newItem);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-      child: CircleAvatar(
-        backgroundColor: widget.bgColor,
-        radius: widget.radius,
-        child: Center(
-          child: IconButton(
-            onPressed: () {
-              setState(() {
-                widget.product.isFavorite = !widget.product.isFavorite;
-              });
-            },
-            icon: Icon(
-              Icons.favorite,
-              color: widget.product.isFavorite
-                  ? Colors.red.shade300
-                  : Colors.grey.shade400,
-            ),
+    return CircleAvatar(
+      backgroundColor: widget.bgColor,
+      radius: widget.radius,
+      child: Center(
+        child: IconButton(
+          onPressed: () {
+            bool itemExists = WishlistItem.wishlistItems
+                .any((item) => item.productId == widget.product.productId);
+            setState(() {
+              widget.product.isFavorite = !widget.product.isFavorite;
+              if (itemExists) {
+                removeItemFromWishlist(widget.product);
+              } else {
+                addItemToWishlist(widget.product);
+              }
+            });
+          },
+          icon: Icon(
+            Icons.favorite,
+            color: widget.product.isFavorite
+                ? Colors.red.shade300
+                : Colors.grey.shade400,
           ),
         ),
       ),

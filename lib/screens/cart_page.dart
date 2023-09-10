@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce_project/screens/home_page.dart';
-import 'package:e_commerce_project/screens/new_products.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import '../widgets/notification_avatar.dart';
+import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 
 class CartPage extends StatefulWidget {
-  final List<CartItem> cartItems;
+  final List<Product> cartItems;
 
   const CartPage({super.key, required this.cartItems});
 
@@ -28,17 +26,20 @@ class _CartPageState extends State<CartPage> {
 
     // Calculate subtotal and tax
     for (var item in widget.cartItems) {
-      subtotal += item.price * item.quantity;
+      subtotal += item.productPrice * item.quantity;
     }
     tax = subtotal * taxRate;
     double total = subtotal + tax;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('My Cart'),
+        title: Text(
+          'My Cart',
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
         actions: [
           NotificationAvatar(
             counter: widget.cartItems.length,
@@ -49,73 +50,20 @@ class _CartPageState extends State<CartPage> {
         ],
       ),
       body: widget.cartItems.isEmpty
-          ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(28),
-                  topRight: Radius.circular(28),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Image(
-                    image: AssetImage('images/emptycart.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Your cart is currently empty!',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'you must add some items to the cart before you proceed to checkout',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        Get.to(const HomePage());
-                      },
-                      child: const Text(
-                        'Back to Shop',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+          ? const EmptyCartContainer()
           : Container(
-              padding: const EdgeInsets.only(right: 8, left: 8),
+              padding: const EdgeInsets.only(right: 3, left: 3, top: 10),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(28),
                   topRight: Radius.circular(28),
                 ),
-                color: Colors.grey.shade200,
+                color: Get.isDarkMode
+                    ? const Color(0xFF2C2D30)
+                    : Colors.grey.shade200,
               ),
               child: Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 8),
+                margin: const EdgeInsets.only(bottom: 8),
                 child: ListView.builder(
                   itemCount: widget.cartItems.length,
                   physics: const BouncingScrollPhysics(),
@@ -123,7 +71,7 @@ class _CartPageState extends State<CartPage> {
                     final cartItem = widget.cartItems[index];
                     return GestureDetector(
                       onTap: () {
-                        //Get.to(ProductDetailsPage(product: cartItem));
+                        Get.to(ProductDetailsPage(product: cartItem));
                       },
                       child: Card(
                         elevation: 3,
@@ -135,7 +83,9 @@ class _CartPageState extends State<CartPage> {
                           margin: const EdgeInsets.only(bottom: 5),
                           height: 120,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Get.isDarkMode
+                                ? const Color(0xFF3E3E43)
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -145,7 +95,7 @@ class _CartPageState extends State<CartPage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: CachedNetworkImage(
-                                    imageUrl: cartItem.productImageUrl,
+                                    imageUrl: cartItem.productImageUrl[0],
                                     fit: BoxFit.cover,
                                     height: 120,
                                     errorWidget: (context, url, error) =>
@@ -175,20 +125,17 @@ class _CartPageState extends State<CartPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              cartItem.name,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
+                                              cartItem.productName,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(fontSize: 18),
                                             ),
                                             Text(
-                                              '\$${cartItem.price.toStringAsFixed(2)}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.green.shade900,
-                                                fontSize: 15,
-                                              ),
+                                              '\$${cartItem.productPrice.toStringAsFixed(2)}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge,
                                             ),
                                           ],
                                         ),
@@ -198,7 +145,7 @@ class _CartPageState extends State<CartPage> {
                                               widget.cartItems.removeAt(index);
                                               Fluttertoast.showToast(
                                                 msg:
-                                                    "Product removed from the cart successfully!",
+                                                    "${cartItem.productName} removed from the cart successfully!",
                                                 toastLength: Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.CENTER,
                                                 backgroundColor: Colors.black,
@@ -216,7 +163,9 @@ class _CartPageState extends State<CartPage> {
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.grey.shade100,
+                                            color: Get.isDarkMode
+                                                ? const Color(0xFF2C2D30)
+                                                : Colors.grey.shade100,
                                             borderRadius:
                                                 BorderRadius.circular(28),
                                           ),
@@ -229,11 +178,15 @@ class _CartPageState extends State<CartPage> {
                                                       BorderRadius.circular(30),
                                                 ),
                                                 child: CircleAvatar(
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Get.isDarkMode
+                                                          ? Colors.white70
+                                                          : Colors.white,
                                                   child: IconButton(
                                                     icon: const Icon(
-                                                        Icons.remove,
-                                                        color: Colors.black),
+                                                      Icons.remove,
+                                                      color: Colors.black,
+                                                    ),
                                                     onPressed: () {
                                                       setState(() {
                                                         if (widget
@@ -253,10 +206,12 @@ class _CartPageState extends State<CartPage> {
                                               const SizedBox(width: 10),
                                               Text(
                                                 '${cartItem.quantity}',
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge
+                                                    ?.copyWith(
+                                                      fontSize: 18,
+                                                    ),
                                               ),
                                               const SizedBox(width: 10),
                                               Card(
@@ -266,7 +221,10 @@ class _CartPageState extends State<CartPage> {
                                                       BorderRadius.circular(30),
                                                 ),
                                                 child: CircleAvatar(
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Get.isDarkMode
+                                                          ? Colors.white70
+                                                          : Colors.white,
                                                   child: IconButton(
                                                     icon: const Icon(Icons.add,
                                                         color: Colors.black),
@@ -351,17 +309,19 @@ class _CartPageState extends State<CartPage> {
                   Text(
                     'Total:',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       fontSize: 19,
-                      color: Colors.green.shade900,
+                      color:
+                          Get.isDarkMode ? Colors.white : Colors.green.shade900,
                     ),
                   ),
                   Text(
                     '\$${total.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       fontSize: 19,
-                      color: Colors.green.shade900,
+                      color:
+                          Get.isDarkMode ? Colors.white : Colors.green.shade900,
                     ),
                   ),
                 ],
@@ -372,14 +332,16 @@ class _CartPageState extends State<CartPage> {
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor:
+                        Get.isDarkMode ? Colors.white70 : Colors.black,
                   ),
                   onPressed: () {},
-                  child: const Text(
+                  child: Text(
                     'Checkout',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontSize: 20,
+                          color: Get.isDarkMode ? Colors.black : Colors.white,
+                        ),
                   ),
                 ),
               ),

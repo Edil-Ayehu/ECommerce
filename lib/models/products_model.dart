@@ -10,6 +10,7 @@ class Product extends Equatable {
   final String productSubCategory;
   bool isFavorite;
   final int amount;
+  int quantity;
 
   Product({
     required this.productId,
@@ -21,6 +22,7 @@ class Product extends Equatable {
     required this.productSubCategory,
     this.isFavorite = false,
     required this.amount,
+    this.quantity = 1,
   });
 
   @override

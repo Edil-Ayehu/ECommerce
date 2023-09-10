@@ -1,13 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:e_commerce_project/screens/products_page.dart';
-import 'package:e_commerce_project/widgets/horizontal_text_container.dart';
-import 'package:e_commerce_project/widgets/notification_avatar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/models.dart';
-import 'screens.dart';
-import '../widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(WishlistPage());
+                    Get.to(const WishlistPage());
                     setState(() {});
                   },
                   child: NotificationAvatar(
@@ -51,6 +47,9 @@ class _HomePageState extends State<HomePage> {
                         .toList()
                         .length,
                     icon: Icons.favorite,
+                    bgColor:
+                        Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
+                    iconColor: Get.isDarkMode ? Colors.white70 : Colors.black,
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -62,6 +61,9 @@ class _HomePageState extends State<HomePage> {
                   child: NotificationAvatar(
                     counter: CartItem.cartItems.length,
                     icon: Icons.shopping_cart,
+                    bgColor:
+                        Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
+                    iconColor: Get.isDarkMode ? Colors.white70 : Colors.black,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> {
         drawer: const MyDrawer(),
         bottomNavigationBar: const CustomBottonNavBar(),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
+          backgroundColor: Get.isDarkMode ? Colors.white70 : Colors.black,
           elevation: 5,
           onPressed: () {
             Get.to(CartPage(cartItems: CartItem.cartItems));
@@ -81,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             counter: CartItem.cartItems.length,
             icon: Icons.shopping_cart_outlined,
             bgColor: Colors.transparent,
-            iconColor: Colors.white,
+            iconColor: Get.isDarkMode ? Colors.black : Colors.white,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -100,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalTextContainer(
                   onTap: () {
-                    Get.to(
-                        ProductCategoriesPage(categories: Category.categories));
+                    Get.to(const ProductCategoriesPage(
+                        categories: Category.categories));
                   },
                   titleText: 'Shop by Category',
                 ),
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                                         element.productCategory ==
                                         category.name)
                                     .toList()))
-                            : Get.to(ProductCategoriesPage(
+                            : Get.to(const ProductCategoriesPage(
                                 categories: Category.categories));
                       },
                       child: DynamicWidthContainer(
@@ -160,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalTextContainer(
                   onTap: () {
-                    Get.to(const AllNewArrivalProducts());
+                    Get.to(const NewProductsPage());
                   },
                   titleText: 'New Arrivals',
                 ),

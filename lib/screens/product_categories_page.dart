@@ -1,8 +1,7 @@
-import 'package:e_commerce_project/models/products_model.dart';
-import 'package:e_commerce_project/screens/products_page.dart';
+import 'package:e_commerce_project/models/models.dart';
+import 'package:e_commerce_project/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/category_model.dart';
 
 class ProductCategoriesPage extends StatefulWidget {
   final List<Category> categories;
@@ -51,17 +50,22 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Text(
+                    Text(
                       'Select a Subcategory',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.displayMedium?.copyWith(
+                                color: Colors.black,
+                              ),
                     ),
                     const SizedBox(height: 20.0),
                     DropdownButton<String>(
                       iconSize: 32,
-                      hint: const Text('Select a subcategory'),
+                      hint: Text(
+                        'Select a subcategory',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                      ),
                       dropdownColor: Colors.grey.shade400,
                       isExpanded: true,
                       borderRadius: BorderRadius.circular(10),
@@ -129,8 +133,14 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
       appBar: AppBar(
-        title: const Text('Product Categories'),
+        backgroundColor: Colors.transparent,
+        elevation: 2,
+        title: Text(
+          'Product Categories',
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -183,10 +193,9 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                       ),
                       child: Text(
                         category.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              fontSize: 18,
+                            ),
                       ),
                     ),
                   );

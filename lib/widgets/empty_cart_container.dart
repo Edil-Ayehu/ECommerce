@@ -1,14 +1,15 @@
-import 'package:e_commerce_project/screens/screens.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmptyWishlistContainer extends StatelessWidget {
-  const EmptyWishlistContainer({Key? key}) : super(key: key);
+import '../screens/screens.dart';
+
+class EmptyCartContainer extends StatelessWidget {
+  const EmptyCartContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
       decoration: BoxDecoration(
         color: Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.grey.shade200,
         borderRadius: const BorderRadius.only(
@@ -16,29 +17,32 @@ class EmptyWishlistContainer extends StatelessWidget {
           topRight: Radius.circular(28),
         ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            CupertinoIcons.square_favorites_alt,
-            size: 200,
-            color: Colors.grey,
+          const Image(
+            image: AssetImage('images/emptycart.png'),
+            fit: BoxFit.cover,
           ),
+          const SizedBox(height: 10),
           const Text(
-            'Your wishlist is empty!',
+            'Your cart is currently empty!',
             style: TextStyle(
+              fontSize: 22,
               color: Colors.red,
               fontWeight: FontWeight.bold,
-              fontSize: 20,
             ),
           ),
-          Text(
-            'seems like you don\'t have wishes here. Make a wish!',
+          const SizedBox(height: 5),
+          const Text(
+            'you must add some items to the cart before you proceed to checkout',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey,
+            ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             height: 50,
@@ -51,7 +55,7 @@ class EmptyWishlistContainer extends StatelessWidget {
                 Get.to(const HomePage());
               },
               child: Text(
-                'Back to Shopping',
+                'Back to Shop',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontSize: 18,
                       color: Get.isDarkMode ? Colors.white70 : Colors.white,

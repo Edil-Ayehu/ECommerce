@@ -4,25 +4,27 @@ import '../models/models.dart';
 
 class RoundedIconButton extends StatefulWidget {
   final IconData icon;
-  final Color backgroundeColor;
+  final Color backgroundColor;
   final Product product;
 
-  const RoundedIconButton(
-      {super.key,
-      required this.icon,
-      required this.backgroundeColor,
-      required this.product});
+  const RoundedIconButton({
+    super.key,
+    required this.icon,
+    required this.backgroundColor,
+    required this.product,
+  });
 
   @override
   State<RoundedIconButton> createState() => _RoundedIconButtonState();
 }
 
 class _RoundedIconButtonState extends State<RoundedIconButton> {
-  addItemToCart(CartItem newItem) {
-    bool itemExists = CartItem.cartItems.any((item) => item.id == newItem.id);
+  addItemToCart(Product newItem) {
+    bool itemExists =
+        CartItem.cartItems.any((item) => item.productId == newItem.productId);
     if (itemExists) {
       Fluttertoast.showToast(
-        msg: "${newItem.name} is already in the cart!",
+        msg: "${newItem.productName} is already in the cart!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.red,
@@ -30,7 +32,7 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
     } else {
       CartItem.cartItems.add(newItem);
       Fluttertoast.showToast(
-        msg: "${newItem.name} added to the cart successfully!",
+        msg: "${newItem.productName} added to the cart successfully!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.black,
@@ -43,19 +45,12 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: widget.backgroundeColor,
+        color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(5),
       ),
       child: InkWell(
         onTap: () {
-          addItemToCart(
-            CartItem(
-              id: widget.product.productId,
-              name: widget.product.productName,
-              price: widget.product.productPrice,
-              productImageUrl: widget.product.productImageUrl[0],
-            ),
-          );
+          addItemToCart(widget.product);
         },
         child: Icon(
           widget.icon,

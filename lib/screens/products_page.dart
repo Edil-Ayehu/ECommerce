@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 
 class ProductsPage extends StatefulWidget {
   final List<Product> products;
