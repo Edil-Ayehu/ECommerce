@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
+import 'package:e_commerce_project/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -102,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalTextContainer(
                   onTap: () {
-                    Get.to(const ProductCategoriesPage(
-                        categories: Category.categories));
+                    Get.to(
+                        ProductCategoriesPage(categories: Category.categories));
                   },
                   titleText: 'Shop by Category',
                 ),
@@ -125,11 +125,12 @@ class _HomePageState extends State<HomePage> {
                                         element.productCategory ==
                                         category.name)
                                     .toList()))
-                            : Get.to(const ProductCategoriesPage(
+                            : Get.to(ProductCategoriesPage(
                                 categories: Category.categories));
                       },
                       child: DynamicWidthContainer(
                         text: Category.categories[index].name,
+                        icon: Category.categories[index].icon,
                       ),
                     );
                   },

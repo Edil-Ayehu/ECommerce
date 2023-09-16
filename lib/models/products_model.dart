@@ -11,6 +11,7 @@ class Product extends Equatable {
   bool isFavorite;
   final int amount;
   int quantity;
+  double averageRating;
 
   Product({
     required this.productId,
@@ -23,6 +24,7 @@ class Product extends Equatable {
     this.isFavorite = false,
     required this.amount,
     this.quantity = 1,
+    this.averageRating = 4,
   });
 
   @override

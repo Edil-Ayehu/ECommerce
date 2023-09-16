@@ -1,11 +1,13 @@
-import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/widgets/widgets.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../models/category_model.dart';
 
 class ProductCategoriesPage extends StatefulWidget {
   final List<Category> categories;
-  const ProductCategoriesPage({super.key, required this.categories});
+  ProductCategoriesPage({super.key, required this.categories});
 
   @override
   _ProductCategoriesPageState createState() => _ProductCategoriesPageState();
@@ -135,7 +137,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
     return Scaffold(
       backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Get.isDarkMode ? Colors.transparent : Colors.white,
         elevation: 2,
         title: Text(
           'Product Categories',
@@ -143,7 +145,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -158,7 +160,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                 physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisExtent: 80,
+                  mainAxisExtent: 140,
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
@@ -181,23 +183,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                                   .toList(),
                             ));
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: selectedCategory == category.name
-                              ? Colors.green.shade900
-                              : Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        category.name,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: 18,
-                            ),
-                      ),
-                    ),
+                    child: CategoryWidget(category: category),
                   );
                 },
               ),

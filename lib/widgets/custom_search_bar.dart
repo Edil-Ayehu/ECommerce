@@ -20,9 +20,13 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Theme.of(context); // Get the current theme
+
     return Container(
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? widget.darkModeBgColor : Colors.white,
+        color: Get.isDarkMode
+            ? widget.darkModeBgColor
+            : Colors.white, // Use current theme's background color
         borderRadius: BorderRadius.circular(24),
       ),
       child: TextField(
@@ -47,13 +51,20 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(24),
             borderSide: BorderSide(
-                color:
-                    Get.isDarkMode ? Colors.transparent : Colors.grey.shade400,
-                width: 1),
+              color: Get.isDarkMode
+                  ? Colors.transparent
+                  : Colors.grey.shade400, // Use current theme's border color
+              width: 1,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(24),
-            borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+            borderSide: BorderSide(
+              color: Get.isDarkMode
+                  ? Colors.transparent
+                  : Colors.grey.shade400, // Use current theme's primary color
+              width: 1,
+            ),
           ),
         ),
       ),

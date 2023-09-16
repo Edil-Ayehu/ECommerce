@@ -45,6 +45,7 @@ dependencies:
   flutter_rating_bar:
   flutter_spinkit:
   fluttertoast:
+  rating_dialog:
 
 dev_dependencies:
   flutter_test:

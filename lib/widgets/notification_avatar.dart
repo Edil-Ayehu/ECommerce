@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class NotificationAvatar extends StatelessWidget {
+class NotificationAvatar extends StatefulWidget {
   final int counter;
   final IconData icon;
   final Color bgColor;
@@ -16,15 +15,20 @@ class NotificationAvatar extends StatelessWidget {
   });
 
   @override
+  State<NotificationAvatar> createState() => _NotificationAvatarState();
+}
+
+class _NotificationAvatarState extends State<NotificationAvatar> {
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundColor: bgColor,
+          backgroundColor: widget.bgColor,
           child: Icon(
-            icon,
-            color: iconColor,
+            widget.icon,
+            color: widget.iconColor,
             size: 28,
           ),
         ),
@@ -38,7 +42,7 @@ class NotificationAvatar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Text(
-              '$counter',
+              '${widget.counter}',
               style: const TextStyle(
                 color: Colors.white, // Change the badge text color as needed
                 fontWeight: FontWeight.bold,

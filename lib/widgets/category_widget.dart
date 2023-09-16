@@ -1,33 +1,42 @@
+import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CategoryWidget extends StatelessWidget {
-  final String categoryName;
+  final Category category;
 
-  CategoryWidget({required this.categoryName});
+  const CategoryWidget({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 8,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        width: 120,
-        height: 45,
-        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        height: 120,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
-          // border: Border.all(color: Colors.grey.shade300, width: 10),
+          borderRadius: BorderRadius.circular(12),
+          color: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
         ),
-        child: Text(
-          categoryName,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Icon(
+                category.icon,
+                size: 65,
+              ),
+            ),
+            Text(
+              category.name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
         ),
       ),
     );

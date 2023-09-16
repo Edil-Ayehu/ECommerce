@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 
 class DynamicWidthContainer extends StatelessWidget {
   final String text;
+  final IconData icon;
 
-  DynamicWidthContainer({required this.text});
+  DynamicWidthContainer({required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +19,19 @@ class DynamicWidthContainer extends StatelessWidget {
             color: Get.isDarkMode ? Colors.transparent : Colors.grey.shade300,
             width: 1),
       ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
       ),
     );
   }

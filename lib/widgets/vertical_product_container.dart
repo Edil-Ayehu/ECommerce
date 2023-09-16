@@ -20,9 +20,8 @@ class VerticalProductContainer extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          //padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          width: w / 2.2,
-          height: 220,
+          width: w / 2.1,
+          height: 240,
           decoration: BoxDecoration(
             color: Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -40,7 +39,7 @@ class VerticalProductContainer extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: product.productImageUrl[0],
                     fit: BoxFit.cover,
-                    height: 150,
+                    height: 170,
                     errorWidget: (context, url, error) => const Image(
                       image: AssetImage('images/error1.jpg'),
                       fit: BoxFit.cover,
@@ -96,8 +95,8 @@ class VerticalProductContainer extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 9,
-          right: 6,
+          top: 4,
+          right: 0,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: FavoriteButton(product: product),

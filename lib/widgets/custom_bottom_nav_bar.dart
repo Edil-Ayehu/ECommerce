@@ -25,8 +25,7 @@ class CustomBottonNavBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Get.to(
-                  const ProductCategoriesPage(categories: Category.categories));
+              Get.to(ProductCategoriesPage(categories: Category.categories));
             },
             icon: const Icon(
               Icons.category,

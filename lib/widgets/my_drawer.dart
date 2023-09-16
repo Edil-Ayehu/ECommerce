@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
-import 'package:e_commerce_project/themes/themes.dart';
 import 'package:e_commerce_project/models/models.dart';
+import 'package:e_commerce_project/themes/themes.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);

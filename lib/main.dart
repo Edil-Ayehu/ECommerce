@@ -1,8 +1,8 @@
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/themes/themes.dart';
-import 'package:e_commerce_project/utilities/dismiss_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:e_commerce_project/utilities/dismiss_keyboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         darkTheme: darkTheme,
         theme: lightTheme,
         themeMode: ThemeMode.system,
-        home: const SplashScreen(),
+        home: const HomePage(),
       ),
     );
   }

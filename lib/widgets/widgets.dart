@@ -14,3 +14,4 @@ export 'cart_container.dart';
 export 'empty_cart_container.dart';
 export 'notification_avatar.dart';
 export 'horizontal_text_container.dart';
+export 'category_widget.dart';

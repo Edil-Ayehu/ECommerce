@@ -46,14 +46,14 @@ class _NewProductsPageState extends State<NewProductsPage> {
             topRight: Radius.circular(28),
           ),
           color:
-              Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.grey.shade200,
+              Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.grey.shade200,
         ),
         child: Column(
           children: [
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomSearchBar(darkModeBgColor: const Color(0xFF2C2D30)),
+              child: CustomSearchBar(darkModeBgColor: const Color(0xFF3E3E43)),
             ),
             const SizedBox(height: 10),
             Padding(
