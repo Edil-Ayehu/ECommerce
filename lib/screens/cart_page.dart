@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CartPage extends StatefulWidget {
   final List<Product> cartItems;
@@ -17,6 +18,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  final _auth = FirebaseAuth.instance;
+
   double taxRate = 0.15; // 15% tax rate
 
   @override
@@ -335,7 +338,13 @@ class _CartPageState extends State<CartPage> {
                     backgroundColor:
                         Get.isDarkMode ? Colors.white70 : Colors.black,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_auth.currentUser?.email != null) {
+                      Get.to(const CheckoutScreen());
+                    } else {
+                      Get.to(SigninScreen());
+                    }
+                  },
                   child: Text(
                     'Checkout',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(

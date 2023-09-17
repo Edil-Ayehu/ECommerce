@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
-import 'package:e_commerce_project/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,6 +14,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _auth = FirebaseAuth.instance;
+  late User loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+        print(loggedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   final List _advertisement = [
     {"title": "Advertisement 1", "url": "images/add1.jpg"},
     {"title": "Advertisement 2", "url": "images/add2.jpg"},
@@ -38,8 +60,12 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(const WishlistPage());
-                    setState(() {});
+                    if (_auth.currentUser?.email != null) {
+                      Get.to(const WishlistPage());
+                      setState(() {});
+                    } else {
+                      Get.off(SigninScreen());
+                    }
                   },
                   child: NotificationAvatar(
                     counter: Product.products
@@ -55,8 +81,12 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5),
                 InkWell(
                   onTap: () {
-                    Get.to(CartPage(cartItems: CartItem.cartItems));
-                    setState(() {});
+                    if (_auth.currentUser?.email != null) {
+                      Get.to(CartPage(cartItems: CartItem.cartItems));
+                      setState(() {});
+                    } else {
+                      Get.off(SigninScreen());
+                    }
                   },
                   child: NotificationAvatar(
                     counter: CartItem.cartItems.length,
@@ -71,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        drawer: const MyDrawer(),
+        drawer: MyDrawer(),
         bottomNavigationBar: const CustomBottonNavBar(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Get.isDarkMode ? Colors.white70 : Colors.black,

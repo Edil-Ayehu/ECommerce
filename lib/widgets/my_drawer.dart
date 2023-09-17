@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
-import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/themes/themes.dart';
+import 'package:e_commerce_project/models/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+class MyDrawer extends StatefulWidget {
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +106,9 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(const AboutPage());
+            },
             child: const ListTile(
               leading: Icon(
                 Icons.info_outline_rounded,
@@ -112,19 +120,38 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: const ListTile(
-              leading: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Logout',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
+          (_auth.currentUser?.email == null)
+              ? InkWell(
+                  onTap: () {
+                    Get.to(SigninScreen());
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.login,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              : InkWell(
+                  onTap: () {
+                    _auth.signOut();
+                    Get.to(SigninScreen());
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
         ],
       ),
     );

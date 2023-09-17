@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
-import 'package:e_commerce_project/models/models.dart';
 
 class ProductsPage extends StatefulWidget {
   final List<Product> products;
@@ -20,7 +21,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -29,7 +30,9 @@ class _ProductsPageState extends State<ProductsPage> {
       body: widget.products.isEmpty
           ? Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Get.isDarkMode
+                    ? const Color(0xFF2C2D30)
+                    : Colors.grey.shade200,
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(28),
                   topLeft: Radius.circular(28),
@@ -64,7 +67,9 @@ class _ProductsPageState extends State<ProductsPage> {
             )
           : Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Get.isDarkMode
+                    ? const Color(0xFF2C2D30)
+                    : Colors.grey.shade200,
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(28),
                   topLeft: Radius.circular(28),

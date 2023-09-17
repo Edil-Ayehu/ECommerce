@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/models/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CustomBottonNavBar extends StatelessWidget {
+class CustomBottonNavBar extends StatefulWidget {
   const CustomBottonNavBar({Key? key}) : super(key: key);
+
+  @override
+  State<CustomBottonNavBar> createState() => _CustomBottonNavBarState();
+}
+
+class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +42,11 @@ class CustomBottonNavBar extends StatelessWidget {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {
-              Get.to(const WishlistPage());
+              if (_auth.currentUser?.email != null) {
+                Get.to(const WishlistPage());
+              } else {
+                Get.to(SigninScreen());
+              }
             },
             icon: const Icon(
               Icons.favorite,
@@ -42,7 +54,11 @@ class CustomBottonNavBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Get.to(const UserProfilePage());
+              if (_auth.currentUser?.email != null) {
+                Get.to(const UserProfilePage());
+              } else {
+                Get.to(SigninScreen());
+              }
             },
             icon: const Icon(
               Icons.person,

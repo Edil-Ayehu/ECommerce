@@ -8,3 +8,7 @@ export 'cart_page.dart';
 export 'user_profile_page.dart';
 export 'splash_screen.dart';
 export 'products_page.dart';
+export 'signup_screen.dart';
+export 'signin_screen.dart';
+export 'checkout_screen.dart';
+export 'about_page.dart';
