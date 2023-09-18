@@ -76,9 +76,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -103,9 +107,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -131,9 +139,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -150,7 +162,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             _obscurePassword
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.white70,
+                            color: Get.isDarkMode
+                                ? Colors.white70
+                                : Colors.grey.shade600,
                           ),
                           onPressed: () {
                             setState(() {
@@ -176,9 +190,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -193,7 +211,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             _obscureConfirmPassword
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.white70,
+                            color: Get.isDarkMode
+                                ? Colors.white70
+                                : Colors.grey.shade600,
                           ),
                           onPressed: () {
                             setState(() {
@@ -224,31 +244,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Get.isDarkMode
-                              ? const Color(0xFF750F21)
-                              : Colors.white70,
+                          backgroundColor: const Color(0xFF750F21),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           )),
-                      // onPressed: () async {
-                      //   setState(() {
-                      //     showSpinner = true;
-                      //   });
-                      //   try {
-                      //     final newUser =
-                      //         await _auth.createUserWithEmailAndPassword(
-                      //             email: email, password: password);
-                      //
-                      //     if (newUser != null) {
-                      //       Get.off(const HomePage());
-                      //     }
-                      //     setState(() {
-                      //       showSpinner = false;
-                      //     });
-                      //   } catch (e) {
-                      //     print(e);
-                      //   }
-                      // },
                       onPressed: () async {
                         // Check if passwords match
                         if (password == confirmPassword) {
@@ -285,12 +284,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           });
                         }
                       },
-
                       child: Text(
                         "Sign up",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
+                              color: Colors.white,
                             ),
                       ),
                     ),

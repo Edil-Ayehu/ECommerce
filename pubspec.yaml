@@ -48,7 +48,6 @@ dependencies:
   rating_dialog:
   firebase_core:
   firebase_auth:
-  cloud_firestore:
   modal_progress_hud_alt:
 
 dev_dependencies:

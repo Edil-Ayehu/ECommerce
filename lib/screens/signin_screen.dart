@@ -23,7 +23,8 @@ class _SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C2D30),
+        backgroundColor:
+            Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.transparent,
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
@@ -50,7 +51,7 @@ class _SigninScreenState extends State<SigninScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 80),
                   const CircleAvatar(
                     radius: 55,
                     backgroundImage: AssetImage('images/eaglelion.jpg'),
@@ -70,9 +71,13 @@ class _SigninScreenState extends State<SigninScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -98,9 +103,13 @@ class _SigninScreenState extends State<SigninScreen> {
                   Container(
                     height: 55,
                     decoration: BoxDecoration(
-                      color:
-                          Get.isDarkMode ? Colors.grey.shade700 : Colors.black,
+                      color: Get.isDarkMode
+                          ? Colors.grey.shade700
+                          : Colors.white60,
                       borderRadius: BorderRadius.circular(12),
+                      border: Get.isDarkMode
+                          ? null
+                          : Border.all(color: Colors.grey.shade400, width: 1),
                     ),
                     child: TextField(
                       onChanged: (value) {
@@ -115,7 +124,9 @@ class _SigninScreenState extends State<SigninScreen> {
                             _obscureText
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.white70,
+                            color: Get.isDarkMode
+                                ? Colors.white70
+                                : Colors.grey.shade600,
                           ),
                           onPressed: () {
                             setState(() {
@@ -146,9 +157,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Get.isDarkMode
-                              ? const Color(0xFF750F21)
-                              : Colors.white70,
+                          backgroundColor: const Color(0xFF750F21),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           )),
@@ -174,6 +183,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
+                              color: Colors.white,
                             ),
                       ),
                     ),

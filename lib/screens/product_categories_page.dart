@@ -38,7 +38,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                 ),
                 margin: const EdgeInsets.only(top: 30),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Get.isDarkMode ? Colors.white70 : Colors.white,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
@@ -65,15 +65,15 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                       hint: Text(
                         'Select a subcategory',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.grey,
+                              color: Colors.black,
                             ),
                       ),
                       dropdownColor: Colors.grey.shade400,
                       isExpanded: true,
                       borderRadius: BorderRadius.circular(10),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_downward,
-                        color: Colors.green.shade900,
+                        color: Colors.black,
                       ),
                       value: selectedSubcategory,
                       enableFeedback: true,
@@ -85,7 +85,12 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                       items: subcategories?.map((subcategory) {
                         return DropdownMenuItem<String>(
                           value: subcategory,
-                          child: Text(subcategory),
+                          child: Text(
+                            subcategory,
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
                         );
                       }).toList(),
                       selectedItemBuilder: (BuildContext context) =>
@@ -106,7 +111,7 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                     const SizedBox(height: 16.0),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green.shade900),
+                          backgroundColor: Colors.black),
                       onPressed: () {
                         selectedSubcategory != null
                             ? {

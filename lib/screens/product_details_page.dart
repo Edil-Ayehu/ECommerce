@@ -1,3 +1,5 @@
+import 'package:e_commerce_project/screens/screens.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
@@ -19,6 +21,7 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  final _auth = FirebaseAuth.instance;
   int _selectedImageIndex = 0;
 
   double userRating = 0; // Store user's rating
@@ -269,45 +272,60 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
 
                         // Rating section ************************
-                        child: GestureDetector(
-                          onTap: () {
-                            if (!hasUserSubmittedReview) {
-                              _showRatingDialog();
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 1.0),
-                            child: Row(
-                              children: [
-                                RatingBar.builder(
-                                  initialRating: widget.product.averageRating,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 20, // Adjust the size as needed
-                                  ignoreGestures:
-                                      hasUserSubmittedReview, // Disable rating update if review submitted
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    if (!hasUserSubmittedReview) {
-                                      _showRatingDialog();
-                                    }
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1.0),
+                          child: (_auth.currentUser?.email != null)
+                              ? Row(
+                                  children: [
+                                    RatingBar.builder(
+                                      initialRating:
+                                          widget.product.averageRating,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 20, // Adjust the size as needed
+                                      ignoreGestures:
+                                          hasUserSubmittedReview, // Disable rating update if review submitted
+                                      itemBuilder: (context, _) => const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        if (!hasUserSubmittedReview) {
+                                          _showRatingDialog();
+                                        }
+                                      },
+                                    ),
+                                    Text(
+                                      '( ${widget.product.averageRating.toStringAsFixed(1)}) ',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    Get.off(SigninScreen());
                                   },
-                                ),
-                                Text(
-                                  '( ${widget.product.averageRating.toStringAsFixed(1)}) ',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.star,
+                                          color: Colors.amber, size: 20),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        widget.product.averageRating
+                                            .toStringAsFixed(1),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
                         ),
 
                         // Rating section ************************
