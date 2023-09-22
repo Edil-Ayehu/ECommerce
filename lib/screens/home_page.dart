@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
     return RefreshIndicator(
       onRefresh: _refreshData,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -81,12 +82,8 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5),
                 InkWell(
                   onTap: () {
-                    if (_auth.currentUser?.email != null) {
-                      Get.to(CartPage(cartItems: CartItem.cartItems));
-                      setState(() {});
-                    } else {
-                      Get.off(SigninScreen());
-                    }
+                    Get.to(CartPage(cartItems: CartItem.cartItems));
+                    setState(() {});
                   },
                   child: NotificationAvatar(
                     counter: CartItem.cartItems.length,
@@ -125,7 +122,9 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomSearchBar(),
+                child: CustomSearchBar(
+                    productItems:
+                        Product.products.map((e) => e.productName).toList()),
               ),
               const SizedBox(height: 20),
               Padding(

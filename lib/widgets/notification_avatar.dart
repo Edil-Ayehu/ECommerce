@@ -38,7 +38,7 @@ class _NotificationAvatarState extends State<NotificationAvatar> {
           child: Container(
             padding: const EdgeInsets.all(3),
             decoration: const BoxDecoration(
-              color: Colors.red, // Change the badge background color as needed
+              color: Colors.red,
               shape: BoxShape.circle,
             ),
             child: Text(

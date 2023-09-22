@@ -4,6 +4,7 @@ import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/themes/themes.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Get.isDarkMode
                   ? Get.changeTheme(lightTheme)
                   : Get.changeTheme(darkTheme);
+              Navigator.pop(context);
             },
             child: const ListTile(
               leading: Text(
@@ -107,7 +109,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           InkWell(
             onTap: () {
-              Get.to(const AboutPage());
+              //Get.to(const AboutPage());
             },
             child: const ListTile(
               leading: Icon(
@@ -139,6 +141,7 @@ class _MyDrawerState extends State<MyDrawer> {
               : InkWell(
                   onTap: () {
                     _auth.signOut();
+                    GoogleSignIn().signOut();
                     Get.to(SigninScreen());
                   },
                   child: const ListTile(

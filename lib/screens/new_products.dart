@@ -53,7 +53,11 @@ class _NewProductsPageState extends State<NewProductsPage> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomSearchBar(darkModeBgColor: const Color(0xFF3E3E43)),
+              child: CustomSearchBar(
+                darkModeBgColor: const Color(0xFF3E3E43),
+                productItems:
+                    Product.products.map((e) => e.productName).toList(),
+              ),
             ),
             const SizedBox(height: 10),
             Padding(

@@ -97,7 +97,10 @@ class _WishlistPageState extends State<WishlistPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const SizedBox(height: 15),
-                    favoriteProducts.isEmpty ? Container() : CustomSearchBar(),
+                    CustomSearchBar(
+                      productItems:
+                          favoriteProducts.map((e) => e.productName).toList(),
+                    ),
                     const SizedBox(height: 15),
                     Expanded(
                       child: ListView.builder(
@@ -111,14 +114,14 @@ class _WishlistPageState extends State<WishlistPage> {
                               Get.to(ProductDetailsPage(product: product));
                             },
                             child: Card(
-                              elevation: 1,
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Container(
-                                width: double.infinity,
-                                height: 120,
-                                //padding: const EdgeInsets.all(6),
+                                padding: const EdgeInsets.all(5),
+                                margin: const EdgeInsets.only(bottom: 5),
+                                height: 100,
                                 decoration: BoxDecoration(
                                   color: Get.isDarkMode
                                       ? const Color(0xFF3E3E43)
@@ -131,7 +134,7 @@ class _WishlistPageState extends State<WishlistPage> {
                                       tag: product.productId,
                                       child: Container(
                                         width: 130,
-                                        height: 120,
+                                        height: 100,
                                         decoration: const BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(12),
@@ -167,7 +170,6 @@ class _WishlistPageState extends State<WishlistPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0,
-                                          vertical: 6,
                                         ),
                                         child: Column(
                                           crossAxisAlignment:
@@ -190,7 +192,7 @@ class _WishlistPageState extends State<WishlistPage> {
                                                             .textTheme
                                                             .labelLarge
                                                             ?.copyWith(
-                                                              fontSize: 18,
+                                                              fontSize: 16,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -200,7 +202,10 @@ class _WishlistPageState extends State<WishlistPage> {
                                                         '\$${product.productPrice}',
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .labelLarge,
+                                                            .labelLarge
+                                                            ?.copyWith(
+                                                              fontSize: 14,
+                                                            ),
                                                       ),
                                                     ],
                                                   ),
@@ -257,8 +262,7 @@ class _WishlistPageState extends State<WishlistPage> {
                                             ),
                                             const Spacer(),
                                             Container(
-                                              height: 45,
-                                              width: double.infinity,
+                                              height: 35,
                                               decoration: BoxDecoration(
                                                 color: Get.isDarkMode
                                                     ? const Color(0xFF2C2D30)
@@ -279,7 +283,11 @@ class _WishlistPageState extends State<WishlistPage> {
                                                   'Add to Cart',
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .labelLarge,
+                                                      .labelLarge
+                                                      ?.copyWith(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                      ),
                                                 ),
                                               ),
                                             ),

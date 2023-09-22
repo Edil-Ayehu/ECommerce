@@ -49,6 +49,8 @@ dependencies:
   firebase_core:
   firebase_auth:
   modal_progress_hud_alt:
+  google_sign_in:
+  flutter_facebook_auth:
 
 dev_dependencies:
   flutter_test:

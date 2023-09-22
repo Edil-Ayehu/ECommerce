@@ -56,9 +56,8 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           },
           icon: Icon(
             Icons.favorite,
-            color: widget.product.isFavorite
-                ? Colors.red.shade300
-                : Colors.grey.shade400,
+            color:
+                widget.product.isFavorite ? Colors.red : Colors.grey.shade400,
           ),
         ),
       ),

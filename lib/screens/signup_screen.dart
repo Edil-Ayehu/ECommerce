@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 
+import '../services/auth_service.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -25,328 +27,417 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool showSpinner = false;
 
+  // Function to show an error dialog
+  void showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Function to validate if the text fields are empty
+  bool isTextFieldEmpty(String text) {
+    return text.trim().isEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Get.off(const HomePage());
-            },
-            child: Text(
-              'GetStarted',
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(fontSize: 20),
-            ),
-          ),
-          const SizedBox(width: 25),
-        ],
-      ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
+        progressIndicator: const CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF750F21)),
+        ),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 30),
-                  const CircleAvatar(
-                    radius: 55,
-                    backgroundImage: AssetImage('images/eaglelion.jpg'),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Register',
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  Text(
-                    'Start Your Shopping Journey with Us',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 25),
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? Colors.grey.shade700
-                          : Colors.white60,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Get.isDarkMode
-                          ? null
-                          : Border.all(color: Colors.grey.shade400, width: 1),
-                    ),
-                    child: TextField(
-                      onChanged: (value) {
-                        uname = value;
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 35),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.off(const HomePage());
                       },
-                      onEditingComplete: () =>
-                          FocusScope.of(context).nextFocus(),
-                      cursorColor: Colors.white70,
-                      decoration: const InputDecoration(
-                        hintText: 'Username',
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+                      child: Text(
+                        'Skip',
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  fontSize: 20,
+                                  color: Get.isDarkMode
+                                      ? Colors.white
+                                      : const Color(0xFF750F21),
+                                ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 65),
+                CircleAvatar(
+                  radius: 55,
+                  backgroundImage: const AssetImage('images/eaglelion.jpg'),
+                  backgroundColor: Get.isDarkMode
+                      ? const Color(0xFF2C2D30)
+                      : Colors.grey.shade200,
+                ),
+                const SizedBox(height: 35),
+                Text(
+                  'Start Your Shopping Journey with Us',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Get.isDarkMode
+                            ? Colors.white
+                            : Colors.grey.shade700,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 25),
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color:
+                        Get.isDarkMode ? Colors.grey.shade700 : Colors.white60,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Get.isDarkMode
+                        ? null
+                        : Border.all(color: Colors.grey.shade400, width: 1),
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter email',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? Colors.grey.shade700
-                          : Colors.white60,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Get.isDarkMode
-                          ? null
-                          : Border.all(color: Colors.grey.shade400, width: 1),
-                    ),
-                    child: TextField(
-                      onChanged: (value) {
-                        email = value;
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      onEditingComplete: () =>
-                          FocusScope.of(context).nextFocus(),
-                      cursorColor: Colors.white70,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter email',
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color:
+                        Get.isDarkMode ? Colors.grey.shade700 : Colors.white60,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Get.isDarkMode
+                        ? null
+                        : Border.all(color: Colors.grey.shade400, width: 1),
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    obscureText: _obscurePassword,
+                    cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
+                    decoration: InputDecoration(
+                      hintText: 'Enter password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Get.isDarkMode
+                              ? Colors.white70
+                              : Colors.grey.shade600,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword =
+                                !_obscurePassword; // Toggle password visibility
+                          });
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? Colors.grey.shade700
-                          : Colors.white60,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Get.isDarkMode
-                          ? null
-                          : Border.all(color: Colors.grey.shade400, width: 1),
-                    ),
-                    child: TextField(
-                      onChanged: (value) {
-                        password = value;
-                      },
-                      onEditingComplete: () =>
-                          FocusScope.of(context).nextFocus(),
-                      obscureText: _obscurePassword,
-                      cursorColor: Colors.white70,
-                      decoration: InputDecoration(
-                        hintText: 'Enter password',
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Get.isDarkMode
-                                ? Colors.white70
-                                : Colors.grey.shade600,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword =
-                                  !_obscurePassword; // Toggle password visibility
-                            });
-                          },
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color:
+                        Get.isDarkMode ? Colors.grey.shade700 : Colors.white60,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Get.isDarkMode
+                        ? null
+                        : Border.all(color: Colors.grey.shade400, width: 1),
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      confirmPassword = value;
+                    },
+                    obscureText: _obscureConfirmPassword,
+                    cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Get.isDarkMode
+                              ? Colors.white70
+                              : Colors.grey.shade600,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 15,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword =
+                                !_obscureConfirmPassword; // Toggle password visibility
+                          });
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? Colors.grey.shade700
-                          : Colors.white60,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Get.isDarkMode
-                          ? null
-                          : Border.all(color: Colors.grey.shade400, width: 1),
-                    ),
-                    child: TextField(
-                      onChanged: (value) {
-                        confirmPassword = value;
-                      },
-                      obscureText: _obscureConfirmPassword,
-                      cursorColor: Colors.white70,
-                      decoration: InputDecoration(
-                        hintText: 'Confirm password',
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscureConfirmPassword
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Get.isDarkMode
-                                ? Colors.white70
-                                : Colors.grey.shade600,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscureConfirmPassword =
-                                  !_obscureConfirmPassword; // Toggle password visibility
-                            });
-                          },
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 15,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  width: double.infinity,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    width: double.infinity,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF750F21),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        )),
+                    onPressed: () async {
+                      // Check if any text field is empty
+                      if (isTextFieldEmpty(uname) ||
+                          isTextFieldEmpty(email) ||
+                          isTextFieldEmpty(password) ||
+                          isTextFieldEmpty(confirmPassword)) {
+                        Fluttertoast.showToast(
+                          msg: "Please enter all fields",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
                           backgroundColor: const Color(0xFF750F21),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          )),
-                      onPressed: () async {
-                        // Check if passwords match
-                        if (password == confirmPassword) {
+                        );
+                        return;
+                      }
+
+                      // Check if passwords match
+                      if (password == confirmPassword) {
+                        setState(() {
+                          showSpinner = true;
+                        });
+
+                        try {
+                          final newUser =
+                              await _auth.createUserWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+
+                          if (newUser != null) {
+                            Get.off(const HomePage());
+                          }
+
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        } catch (e) {
+                          print(e);
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          // Show an error dialog with the error message
+                          showErrorDialog('Sign-up failed. Please try again.');
+                        }
+                      } else {
+                        setState(() {
+                          Fluttertoast.showToast(
+                            msg:
+                                "The entered passwords do not match. Please try again.",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: const Color(0xFF750F21),
+                          );
+                        });
+                      }
+                    },
+                    child: Text(
+                      "Sign up",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Expanded(
+                      child:
+                          Divider(thickness: 0.5, color: Colors.grey.shade400),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'Or continue with',
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child:
+                          Divider(thickness: 0.5, color: Colors.grey.shade400),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 35),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        try {
                           setState(() {
                             showSpinner = true;
                           });
-
-                          try {
-                            final newUser =
-                                await _auth.createUserWithEmailAndPassword(
-                              email: email,
-                              password: password,
-                            );
-
-                            if (newUser != null) {
-                              Get.off(const HomePage());
-                            }
-
-                            setState(() {
-                              showSpinner = false;
-                            });
-                          } catch (e) {
-                            print(e);
-                          }
-                        } else {
+                          await AuthService().signInWithGoogle();
                           setState(() {
-                            Fluttertoast.showToast(
-                              msg:
-                                  "The entered passwords do not match. Please try again.",
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
-                              backgroundColor: Colors.red,
-                            );
+                            showSpinner = false;
+                          });
+                          Get.to(const HomePage());
+                        } catch (e) {
+                          print(e);
+                          setState(() {
+                            showSpinner = false;
                           });
                         }
                       },
-                      child: Text(
-                        "Sign up",
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                            ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Already have an account?'),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () async {
-                          Get.off(SigninScreen());
-                        },
-                        child: Text(
-                          'Sign in',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium
-                              ?.copyWith(fontSize: 18),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white),
+                        ),
+                        child: Image.asset(
+                          'images/google.png',
+                          height: 40,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        text: 'By creating an account, you agree to the ',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        children: [
-                          TextSpan(
-                            text: 'Terms and Conditions',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  decoration: TextDecoration.underline,
+                    ),
+                    const SizedBox(width: 15),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white),
+                        ),
+                        child: Image.asset(
+                          'images/facebook.png',
+                          height: 40,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Already have an account?'),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () async {
+                        Get.off(SigninScreen());
+                      },
+                      child: Text(
+                        'Sign in',
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  fontSize: 18,
+                                  color: Get.isDarkMode
+                                      ? Colors.white
+                                      : const Color(0xFF750F21),
                                 ),
-                          ),
-                          TextSpan(
-                            text: ' and ',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  decoration: TextDecoration.underline,
-                                ),
-                          ),
-                        ]),
-                  ),
-                ],
-              ),
+                      ),
+                    ),
+                  ],
+                ),
+                // const SizedBox(height: 10),
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //       text: 'By creating an account, you agree to the ',
+                //       style: Theme.of(context).textTheme.bodyMedium,
+                //       children: [
+                //         TextSpan(
+                //           text: 'Terms and Conditions',
+                //           style:
+                //               Theme.of(context).textTheme.bodyMedium?.copyWith(
+                //                     decoration: TextDecoration.underline,
+                //                   ),
+                //         ),
+                //         TextSpan(
+                //           text: ' and ',
+                //           style: Theme.of(context).textTheme.bodyMedium,
+                //         ),
+                //         TextSpan(
+                //           text: 'Privacy Policy',
+                //           style:
+                //               Theme.of(context).textTheme.bodyMedium?.copyWith(
+                //                     decoration: TextDecoration.underline,
+                //                   ),
+                //         ),
+                //       ]),
+                // ),
+              ],
             ),
           ),
         ),
