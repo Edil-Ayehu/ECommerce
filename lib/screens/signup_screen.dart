@@ -17,7 +17,6 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _auth = FirebaseAuth.instance;
 
-  late String uname;
   late String email;
   late String password;
   late String confirmPassword;
@@ -248,8 +247,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )),
                     onPressed: () async {
                       // Check if any text field is empty
-                      if (isTextFieldEmpty(uname) ||
-                          isTextFieldEmpty(email) ||
+                      if (isTextFieldEmpty(email) ||
                           isTextFieldEmpty(password) ||
                           isTextFieldEmpty(confirmPassword)) {
                         Fluttertoast.showToast(

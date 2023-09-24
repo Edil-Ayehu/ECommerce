@@ -19,26 +19,6 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
-  // addItemToCart(CartItem newItem) {
-  //   bool itemExists = CartItem.cartItems.any((item) => item.id == newItem.id);
-  //   if (itemExists) {
-  //     Fluttertoast.showToast(
-  //       msg: "${newItem.name} is already in the cart!",
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.red,
-  //     );
-  //   } else {
-  //     CartItem.cartItems.add(newItem);
-  //     Fluttertoast.showToast(
-  //       msg: "${newItem.name} added to the cart successfully!",
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.black,
-  //     );
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Center(

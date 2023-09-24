@@ -10,28 +10,38 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 2), () => Get.off(const HomePage()));
     return Scaffold(
+      backgroundColor: const Color(0xFF750F21),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Image(
-            image: AssetImage('images/logo.jpg'),
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: Colors.black,
+          const Center(
+            child: Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+              size: 170,
             ),
+          ),
+          const Text(
+            'Gulit Daily',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 45,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: const Text(
-              'EagleLion',
+              'Fashion, Tech, Home, and More – All in the Palm of Your Hand',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
               ),
+              textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       ),
     );

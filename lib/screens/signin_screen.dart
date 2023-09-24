@@ -41,6 +41,24 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset email sent. Check your email.'),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('Password reset email sending failed. Please try again.'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -176,13 +194,18 @@ class _SigninScreenState extends State<SigninScreen> {
                 const SizedBox(height: 10),
                 Container(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    "Forgot your password?",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Get.isDarkMode
-                              ? Colors.white
-                              : Colors.grey.shade700,
-                        ),
+                  child: GestureDetector(
+                    onTap: () {
+                      resetPassword(email);
+                    },
+                    child: Text(
+                      "Forgot your password?",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Get.isDarkMode
+                                ? Colors.white
+                                : Colors.grey.shade700,
+                          ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -306,7 +329,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 55),
+                const SizedBox(height: 45),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

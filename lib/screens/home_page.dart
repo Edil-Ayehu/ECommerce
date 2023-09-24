@@ -3,6 +3,7 @@ import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           foregroundColor: Colors.black,
+          title: Text('welcome'.tr),
           actions: [
             Row(
               children: [
@@ -188,6 +190,30 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 15),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //   child: HorizontalTextContainer(
+              //     onTap: () {
+              //       Get.to(const NewProductsPage());
+              //     },
+              //     titleText: 'Recommendations',
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 240,
+              //   child: ListView.builder(
+              //     itemCount: 10,
+              //     scrollDirection: Axis.horizontal,
+              //     physics: const BouncingScrollPhysics(),
+              //     itemBuilder: (context, index) {
+              //       return Padding(
+              //         padding: const EdgeInsets.only(left: 15.0),
+              //         child: VerticalProductContainer(
+              //             product: Product.products[index]),
+              //       );
+              //     },
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalTextContainer(

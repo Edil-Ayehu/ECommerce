@@ -12,3 +12,4 @@ export 'signup_screen.dart';
 export 'signin_screen.dart';
 export 'checkout_screen.dart';
 export 'about_page.dart';
+export 'language_page.dart';

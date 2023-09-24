@@ -5,6 +5,7 @@ import 'package:e_commerce_project/themes/themes.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -83,14 +84,14 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           InkWell(
             onTap: () {},
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.notifications,
                 color: Colors.white,
               ),
               title: Text(
-                'Notifications',
-                style: TextStyle(color: Colors.white),
+                'notification'.tr,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -111,14 +112,43 @@ class _MyDrawerState extends State<MyDrawer> {
             onTap: () {
               //Get.to(const AboutPage());
             },
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.info_outline_rounded,
                 color: Colors.white,
               ),
               title: Text(
-                'About',
-                style: TextStyle(color: Colors.white),
+                'about'.tr,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              if (prefs.getString('language') == null) {
+                String selectedLanguage =
+                    'en_US'; // Initialize with a default language
+                Navigator.pop(context);
+                Get.to(LanguagePage(
+                  selectedLanguage: selectedLanguage,
+                ));
+              } else {
+                String? selectedLanguage = prefs.getString('language');
+                Navigator.pop(context);
+                Get.to(LanguagePage(
+                  selectedLanguage: selectedLanguage,
+                ));
+              }
+            },
+            child: ListTile(
+              leading: const Icon(
+                Icons.language_outlined,
+                color: Colors.white,
+              ),
+              title: Text(
+                'language'.tr,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
