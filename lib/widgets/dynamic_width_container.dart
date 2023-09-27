@@ -25,7 +25,7 @@ class DynamicWidthContainer extends StatelessWidget {
           Icon(icon),
           const SizedBox(width: 4),
           Text(
-            text,
+            text.tr,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

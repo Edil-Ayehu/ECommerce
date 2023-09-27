@@ -190,7 +190,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             decoration: InputDecoration(
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              hintText: 'Search for anything...',
+              // hintText: 'Search for anything...',
+              hintText: 'search'.tr,
               prefixIcon: const Icon(Icons.search),
               prefixIconColor: Colors.grey,
               suffixIconColor: Colors.grey,

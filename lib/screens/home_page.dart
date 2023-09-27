@@ -2,10 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -47,6 +48,29 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  void showErrorDialog(ctx, String errorMessage) {
+    showCupertinoDialog(
+        context: ctx,
+        builder: (_) => CupertinoAlertDialog(
+              title: const Text("Error"),
+              content: Text(errorMessage),
+              actions: [
+                CupertinoButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Color(0xFF750F21),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -64,10 +88,19 @@ class _HomePageState extends State<HomePage> {
                 InkWell(
                   onTap: () {
                     if (_auth.currentUser?.email != null) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const WishlistPage(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
                       Get.to(const WishlistPage());
                       setState(() {});
                     } else {
-                      Get.off(SigninScreen());
+                      showErrorDialog(context,
+                          'Please sign in or create an account to continue.');
+                      //Get.off(SigninScreen());
                     }
                   },
                   child: NotificationAvatar(
@@ -84,7 +117,13 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5),
                 InkWell(
                   onTap: () {
-                    Get.to(CartPage(cartItems: CartItem.cartItems));
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        child: CartPage(cartItems: CartItem.cartItems),
+                        type: PageTransitionType.rightToLeft,
+                      ),
+                    );
                     setState(() {});
                   },
                   child: NotificationAvatar(
@@ -106,7 +145,13 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Get.isDarkMode ? Colors.white70 : Colors.black,
           elevation: 5,
           onPressed: () {
-            Get.to(CartPage(cartItems: CartItem.cartItems));
+            Navigator.push(
+              context,
+              PageTransition(
+                child: CartPage(cartItems: CartItem.cartItems),
+                type: PageTransitionType.rightToLeft,
+              ),
+            );
           },
           child: NotificationAvatar(
             counter: CartItem.cartItems.length,
@@ -136,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                     Get.to(
                         ProductCategoriesPage(categories: Category.categories));
                   },
-                  titleText: 'Shop by Category',
+                  titleText: 'categories'.tr,
                 ),
               ),
               SizedBox(
@@ -220,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Get.to(const NewProductsPage());
                   },
-                  titleText: 'New Arrivals',
+                  titleText: 'new products'.tr,
                 ),
               ),
               ProductWidget(

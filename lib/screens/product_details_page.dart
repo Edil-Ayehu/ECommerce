@@ -120,7 +120,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ),
         title: Text(
-          'Product details',
+          'product details'.tr,
           style: Theme.of(context).textTheme.displayMedium,
         ),
         actions: [
@@ -333,9 +333,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ],
                   ),
                   const SizedBox(height: 15),
-                  const Text(
-                    'Details',
-                    style: TextStyle(
+                  Text(
+                    'details'.tr,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -377,7 +377,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                   : Colors.white,
                             ),
                             label: Text(
-                              'Add to Cart',
+                              'add_to_cart'.tr,
                               style: TextStyle(
                                 color: Get.isDarkMode
                                     ? Colors.white70
@@ -403,9 +403,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                   : Colors.white,
                             ),
                             onPressed: () {},
-                            child: const Text(
-                              'Buy Now',
-                              style: TextStyle(color: Colors.black),
+                            child: Text(
+                              'buy_now'.tr,
+                              style: const TextStyle(color: Colors.black),
                             ),
                           ),
                         ),
@@ -439,7 +439,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             top: 10,
                           ),
                           child: Text(
-                            'Related Products',
+                            'related_products'.tr,
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                         ),

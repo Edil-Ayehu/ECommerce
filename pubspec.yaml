@@ -53,6 +53,8 @@ dependencies:
   flutter_facebook_auth:
   flutter_locales:
   shared_preferences:
+  url_launcher:
+  page_transition: ^2.1.0
 
 dev_dependencies:
   flutter_test:

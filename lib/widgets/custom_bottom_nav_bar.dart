@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CustomBottonNavBar extends StatefulWidget {
   const CustomBottonNavBar({Key? key}) : super(key: key);
@@ -33,7 +34,13 @@ class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
           ),
           IconButton(
             onPressed: () {
-              Get.to(ProductCategoriesPage(categories: Category.categories));
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: ProductCategoriesPage(categories: Category.categories),
+                  type: PageTransitionType.rightToLeft,
+                ),
+              );
             },
             icon: const Icon(
               Icons.category,
@@ -43,7 +50,13 @@ class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
           IconButton(
             onPressed: () {
               if (_auth.currentUser?.email != null) {
-                Get.to(const WishlistPage());
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const WishlistPage(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
               } else {
                 Get.to(SigninScreen());
               }
@@ -55,7 +68,13 @@ class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
           IconButton(
             onPressed: () {
               if (_auth.currentUser?.email != null) {
-                Get.to(const UserProfilePage());
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const UserProfilePage(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
               } else {
                 Get.to(SigninScreen());
               }

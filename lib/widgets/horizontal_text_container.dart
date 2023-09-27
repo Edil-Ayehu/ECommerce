@@ -6,13 +6,13 @@ class HorizontalTextContainer extends StatelessWidget {
   final String titleText;
 
   const HorizontalTextContainer(
-      {super.key, required this.onTap, required this.titleText});
+      {super.key, required this.onTap, required this.titleText,});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 15, top: 20, bottom: 20),
-      // margin: const EdgeInsets.symmetric(horizontal: 10),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -26,9 +26,10 @@ class HorizontalTextContainer extends StatelessWidget {
           GestureDetector(
             onTap: onTap,
             child: Text(
-              'More',
+              'more'.tr,
               style: TextStyle(
-                color: Get.isDarkMode ? Colors.white70 : Colors.green.shade900,
+                color:
+                    Get.isDarkMode ? Colors.white70 : const Color(0xFF750F21),
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

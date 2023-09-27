@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:get/get.dart';
 
 class Category extends Equatable {
   final String name;
@@ -19,12 +19,12 @@ class Category extends Equatable {
 
   static final List<Category> categories = [
     const Category(
-      name: 'Electronics',
+      name: 'electronics',
       subCategories: ['TV', 'Phone', 'Laptop', 'Headset', 'Tablet'],
       icon: Icons.laptop_chromebook,
     ),
     const Category(
-      name: 'Clothing',
+      name: 'clothing',
       subCategories: [
         'Men\'s Clothing',
         'Women\'s Clothing',
@@ -38,12 +38,12 @@ class Category extends Equatable {
       icon: Icons.shopping_bag,
     ),
     const Category(
-      name: 'Furniture',
+      name: 'furnitures',
       subCategories: [],
       icon: Icons.chair,
     ),
     const Category(
-      name: 'Vehicles',
+      name: 'vehicles',
       subCategories: [
         'Cars',
         'Tracks & Vans',
@@ -53,12 +53,12 @@ class Category extends Equatable {
       icon: Icons.car_crash,
     ),
     const Category(
-      name: 'Pet Supplies',
+      name: 'pet',
       subCategories: ['Dog', 'Cat'],
       icon: Icons.pets_outlined,
     ),
     const Category(
-      name: 'Jewelry',
+      name: 'jewelry',
       subCategories: [
         'Necklaces',
         'Earrings',
@@ -69,7 +69,7 @@ class Category extends Equatable {
       icon: Icons.filter_drama,
     ),
     const Category(
-      name: 'Books',
+      name: 'books',
       subCategories: [
         'Fiction',
         'History',
@@ -82,12 +82,12 @@ class Category extends Equatable {
       icon: Icons.book_online,
     ),
     const Category(
-      name: 'Sports & Fitness',
+      name: 'sports & fitness',
       subCategories: [],
       icon: Icons.sports_baseball,
     ),
     const Category(
-      name: 'Toys & Games',
+      name: 'toys & games',
       subCategories: [],
       icon: Icons.toys,
     ),

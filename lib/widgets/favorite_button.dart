@@ -1,6 +1,7 @@
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +32,29 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     WishlistItem.wishlistItems.remove(newItem);
   }
 
+  void showErrorDialog(ctx, String errorMessage) {
+    showCupertinoDialog(
+        context: ctx,
+        builder: (_) => CupertinoAlertDialog(
+              title: const Text("Error"),
+              content: Text(errorMessage),
+              actions: [
+                CupertinoButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Color(0xFF750F21),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
@@ -51,7 +75,8 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 }
               });
             } else {
-              Get.to(SigninScreen());
+              showErrorDialog(
+                  context, 'Please sign in or create an account to continue.');
             }
           },
           icon: Icon(

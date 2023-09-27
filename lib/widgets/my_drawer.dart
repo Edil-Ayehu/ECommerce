@@ -5,6 +5,7 @@ import 'package:e_commerce_project/themes/themes.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -69,7 +70,13 @@ class _MyDrawerState extends State<MyDrawer> {
           InkWell(
             onTap: () {
               Navigator.pop(context);
-              Get.to(CartPage(cartItems: CartItem.cartItems));
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: CartPage(cartItems: CartItem.cartItems),
+                  type: PageTransitionType.rightToLeft,
+                ),
+              );
             },
             child: const ListTile(
               leading: Icon(
@@ -96,21 +103,15 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           InkWell(
-            onTap: () {},
-            child: const ListTile(
-              leading: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Setting',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          InkWell(
             onTap: () {
-              //Get.to(const AboutPage());
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: const AboutPage(),
+                  type: PageTransitionType.rightToLeft,
+                ),
+              );
             },
             child: ListTile(
               leading: const Icon(
@@ -130,9 +131,13 @@ class _MyDrawerState extends State<MyDrawer> {
                 String selectedLanguage =
                     'en_US'; // Initialize with a default language
                 Navigator.pop(context);
-                Get.to(LanguagePage(
-                  selectedLanguage: selectedLanguage,
-                ));
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: LanguagePage(selectedLanguage: selectedLanguage),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
               } else {
                 String? selectedLanguage = prefs.getString('language');
                 Navigator.pop(context);
@@ -155,16 +160,22 @@ class _MyDrawerState extends State<MyDrawer> {
           (_auth.currentUser?.email == null)
               ? InkWell(
                   onTap: () {
-                    Get.to(SigninScreen());
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        child: SigninScreen(),
+                        type: PageTransitionType.rightToLeft,
+                      ),
+                    );
                   },
-                  child: const ListTile(
-                    leading: Icon(
+                  child: ListTile(
+                    leading: const Icon(
                       Icons.login,
                       color: Colors.white,
                     ),
                     title: Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white),
+                      'login'.tr,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 )
@@ -172,16 +183,22 @@ class _MyDrawerState extends State<MyDrawer> {
                   onTap: () {
                     _auth.signOut();
                     GoogleSignIn().signOut();
-                    Get.to(SigninScreen());
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        child: SigninScreen(),
+                        type: PageTransitionType.rightToLeft,
+                      ),
+                    );
                   },
-                  child: const ListTile(
-                    leading: Icon(
+                  child: ListTile(
+                    leading: const Icon(
                       Icons.logout,
                       color: Colors.white,
                     ),
                     title: Text(
-                      'Logout',
-                      style: TextStyle(color: Colors.white),
+                      'logout'.tr,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),

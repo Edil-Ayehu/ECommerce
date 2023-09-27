@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,29 @@ class _CartPageState extends State<CartPage> {
     }
     tax = subtotal * taxRate;
     double total = subtotal + tax;
+
+    void showErrorDialog(ctx, String errorMessage) {
+      showCupertinoDialog(
+          context: ctx,
+          builder: (_) => CupertinoAlertDialog(
+                title: const Text("Error"),
+                content: Text(errorMessage),
+                actions: [
+                  CupertinoButton(
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        color: Color(0xFF750F21),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                  )
+                ],
+              ));
+    }
 
     return Scaffold(
       backgroundColor: Get.isDarkMode ? const Color(0xFF2C2D30) : Colors.white,
@@ -325,7 +349,8 @@ class _CartPageState extends State<CartPage> {
                     if (_auth.currentUser?.email != null) {
                       Get.to(const CheckoutScreen());
                     } else {
-                      Get.to(SigninScreen());
+                      showErrorDialog(context,
+                          'Please sign in or create an account to continue.');
                     }
                   },
                   child: Text(

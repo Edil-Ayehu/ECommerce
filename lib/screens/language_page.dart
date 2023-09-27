@@ -61,6 +61,7 @@ class _LanguagePageState extends State<LanguagePage> {
               onChanged: (value) {
                 _changeLocale(value!);
               },
+              activeColor: const Color(0xFF750F21),
             ),
           ),
           ListTile(
@@ -74,6 +75,35 @@ class _LanguagePageState extends State<LanguagePage> {
               onChanged: (value) {
                 _changeLocale(value!);
               },
+              activeColor: const Color(0xFF750F21),
+            ),
+          ),
+          ListTile(
+            title: const Text("Oromigna"),
+            onTap: () {
+              _changeLocale('om_ET'); // Change to Amharic
+            },
+            leading: Radio<String>(
+              value: 'om_ET',
+              groupValue: widget.selectedLanguage,
+              onChanged: (value) {
+                _changeLocale(value!);
+              },
+              activeColor: const Color(0xFF750F21),
+            ),
+          ),
+          ListTile(
+            title: const Text("Tigrigna"),
+            onTap: () {
+              _changeLocale('ti_ET'); // Change to Amharic
+            },
+            leading: Radio<String>(
+              value: 'ti_ET',
+              groupValue: widget.selectedLanguage,
+              onChanged: (value) {
+                _changeLocale(value!);
+              },
+              activeColor: const Color(0xFF750F21),
             ),
           ),
         ],

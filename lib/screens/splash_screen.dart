@@ -32,9 +32,9 @@ class SplashScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Text(
-              'Fashion, Tech, Home, and More – All in the Palm of Your Hand',
-              style: TextStyle(
+            child: Text(
+              'splash_screen_statement'.tr,
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 18,

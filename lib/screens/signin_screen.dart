@@ -1,9 +1,13 @@
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:e_commerce_project/services/auth_service.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../widgets/widgets.dart';
 
 class SigninScreen extends StatefulWidget {
   SigninScreen({Key? key}) : super(key: key);
@@ -21,42 +25,27 @@ class _SigninScreenState extends State<SigninScreen> {
   bool showSpinner = false;
 
   // Function to show an error dialog
-  void showErrorDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> resetPassword(String email) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password reset email sent. Check your email.'),
-        ),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text('Password reset email sending failed. Please try again.'),
-        ),
-      );
-    }
+  void showErrorDialog(ctx, String errorMessage) {
+    showCupertinoDialog(
+        context: ctx,
+        builder: (_) => CupertinoAlertDialog(
+              title: const Text("Error"),
+              content: Text(errorMessage),
+              actions: [
+                CupertinoButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Color(0xFF750F21),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
   }
 
   @override
@@ -83,7 +72,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         Get.off(const HomePage());
                       },
                       child: Text(
-                        'Skip',
+                        'skip'.tr,
                         style:
                             Theme.of(context).textTheme.displayMedium?.copyWith(
                                   fontSize: 20,
@@ -95,14 +84,8 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 65),
-                CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Get.isDarkMode
-                      ? const Color(0xFF2C2D30)
-                      : Colors.grey.shade200,
-                  backgroundImage: const AssetImage('images/eaglelion.jpg'),
-                ),
+                const SizedBox(height: 55),
+                const CustomCircleAvatar(),
                 const SizedBox(height: 35),
                 Text(
                   'Welcome back! Please enter your details',
@@ -131,13 +114,14 @@ class _SigninScreenState extends State<SigninScreen> {
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
                     keyboardType: TextInputType.emailAddress,
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                    decoration: const InputDecoration(
-                      hintText: 'Enter email',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      enabledBorder: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      hintText: 'email'.tr,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
+                      enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -161,7 +145,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     obscureText: _obscureText,
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
                     decoration: InputDecoration(
-                      hintText: 'Enter password',
+                      hintText: 'password'.tr,
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureText
@@ -196,10 +180,16 @@ class _SigninScreenState extends State<SigninScreen> {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      resetPassword(email);
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const ForgotPasswordMailScreen(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
                     },
                     child: Text(
-                      "Forgot your password?",
+                      "forgot".tr,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Get.isDarkMode
                                 ? Colors.white
@@ -217,10 +207,11 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF750F21),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        )),
+                      backgroundColor: const Color(0xFF750F21),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                     onPressed: () async {
                       setState(() {
                         showSpinner = true;
@@ -239,12 +230,12 @@ class _SigninScreenState extends State<SigninScreen> {
                         setState(() {
                           showSpinner = false;
                         });
-                        showErrorDialog(
+                        showErrorDialog(context,
                             'Invalid email or password. Please try again.');
                       }
                     },
                     child: Text(
-                      "Sign in",
+                      "signin".tr,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
@@ -263,7 +254,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        'Or continue with',
+                        'continue'.tr,
                         style: TextStyle(
                           color: Colors.grey.shade700,
                           fontSize: 16,

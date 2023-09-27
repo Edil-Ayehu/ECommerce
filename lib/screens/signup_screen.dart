@@ -1,4 +1,5 @@
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 
 import '../services/auth_service.dart';
+import '../widgets/widgets.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -27,24 +29,27 @@ class _SignupScreenState extends State<SignupScreen> {
   bool showSpinner = false;
 
   // Function to show an error dialog
-  void showErrorDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+  void showErrorDialog(ctx, String errorMessage) {
+    showCupertinoDialog(
+        context: ctx,
+        builder: (_) => CupertinoAlertDialog(
+              title: const Text("Error"),
+              content: Text(errorMessage),
+              actions: [
+                CupertinoButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Color(0xFF750F21),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
   }
 
   // Function to validate if the text fields are empty
@@ -75,7 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Get.off(const HomePage());
                       },
                       child: Text(
-                        'Skip',
+                        'skip'.tr,
                         style:
                             Theme.of(context).textTheme.displayMedium?.copyWith(
                                   fontSize: 20,
@@ -87,14 +92,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 65),
-                CircleAvatar(
-                  radius: 55,
-                  backgroundImage: const AssetImage('images/eaglelion.jpg'),
-                  backgroundColor: Get.isDarkMode
-                      ? const Color(0xFF2C2D30)
-                      : Colors.grey.shade200,
-                ),
+                const SizedBox(height: 55),
+                const CustomCircleAvatar(),
                 const SizedBox(height: 35),
                 Text(
                   'Start Your Shopping Journey with Us',
@@ -123,13 +122,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     keyboardType: TextInputType.emailAddress,
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter email',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      enabledBorder: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      hintText: 'email'.tr,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
+                      enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -154,7 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     obscureText: _obscurePassword,
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
                     decoration: InputDecoration(
-                      hintText: 'Enter password',
+                      hintText: 'password'.tr,
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
@@ -202,7 +202,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     obscureText: _obscureConfirmPassword,
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
                     decoration: InputDecoration(
-                      hintText: 'Confirm password',
+                      hintText: 'confirmPass'.tr,
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureConfirmPassword
@@ -285,7 +285,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             showSpinner = false;
                           });
                           // Show an error dialog with the error message
-                          showErrorDialog('Sign-up failed. Please try again.');
+                          showErrorDialog(
+                              context, 'Sign-up failed. Please try again.');
                         }
                       } else {
                         setState(() {
@@ -300,7 +301,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       }
                     },
                     child: Text(
-                      "Sign up",
+                      "signup".tr,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
@@ -319,7 +320,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        'Or continue with',
+                        'continue'.tr,
                         style: TextStyle(
                           color: Colors.grey.shade700,
                           fontSize: 16,
@@ -396,7 +397,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Get.off(SigninScreen());
                       },
                       child: Text(
-                        'Sign in',
+                        'signin'.tr,
                         style:
                             Theme.of(context).textTheme.displayMedium?.copyWith(
                                   fontSize: 18,
