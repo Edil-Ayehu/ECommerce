@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,9 +11,7 @@ import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CartPage extends StatefulWidget {
-  final List<Product> cartItems;
-
-  const CartPage({super.key, required this.cartItems});
+  const CartPage({super.key});
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -20,16 +19,98 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   final _auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  List<cartlistProducts> cartListItems = [];
+
+  Future<void> fetchCartlistItems() async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Get the user's UID
+        String userId = user.uid;
+
+        // Reference to the user's wishlist subcollection
+        CollectionReference cartRef =
+            firestore.collection('users').doc(userId).collection('cart');
+
+        // Query the wishlist subcollection to get wishlist items
+        QuerySnapshot querySnapshot = await cartRef.get();
+
+        // Clear the existing wishlist items
+        cartListItems.clear();
+
+        // Iterate through the documents and add them to the list
+        querySnapshot.docs.forEach((doc) {
+          // Create Product object from Firestore document data
+          cartlistProducts product = cartlistProducts(
+            productId: doc['productId'],
+            productName: doc['productName'],
+            productPrice: doc['productPrice'],
+            productImageUrl: doc['productImageUrl'],
+            productDescription: doc['productDescription'],
+            quantity: doc['quantity'],
+          );
+
+          // Add the product to the wishlistItems list
+          cartListItems.add(product);
+        });
+
+        // Update the UI
+        setState(() {});
+      } else {
+        // User not authenticated
+        print('User not authenticated');
+      }
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error retrieving wishlist items: $e');
+    }
+  }
+
+  Future<void> removeItemFromCart(String productId) async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Get the user's UID
+        String userId = user.uid;
+
+        // Reference to the user's cart subcollection
+        CollectionReference cartlistRef =
+            firestore.collection('users').doc(userId).collection('cart');
+
+        await cartlistRef.doc(productId).delete();
+        fetchCartlistItems();
+      } else {
+        // User not authenticated
+        print('User not authenticated');
+      }
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error removing item from cart: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch cart items when the widget is initialized
+    fetchCartlistItems();
+  }
 
   double taxRate = 0.15; // 15% tax rate
 
   @override
   Widget build(BuildContext context) {
+    final cartlistCount = cartListItems.length;
+
     double subtotal = 0.0;
     double tax = 0.0;
 
     // Calculate subtotal and tax
-    for (var item in widget.cartItems) {
+    for (var item in cartListItems) {
       subtotal += item.productPrice * item.quantity;
     }
     tax = subtotal * taxRate;
@@ -69,14 +150,14 @@ class _CartPageState extends State<CartPage> {
         ),
         actions: [
           NotificationAvatar(
-            counter: widget.cartItems.length,
+            counter: cartlistCount,
             icon: Icons.shopping_cart,
             bgColor: Colors.grey.shade200,
           ),
           const SizedBox(width: 10),
         ],
       ),
-      body: widget.cartItems.isEmpty
+      body: cartListItems.isEmpty
           ? const EmptyCartContainer()
           : Container(
               padding: const EdgeInsets.only(right: 3, left: 3, top: 10),
@@ -92,13 +173,13 @@ class _CartPageState extends State<CartPage> {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ListView.builder(
-                  itemCount: widget.cartItems.length,
+                  itemCount: cartlistCount,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final cartItem = widget.cartItems[index];
+                    final product = cartListItems[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(ProductDetailsPage(product: cartItem));
+                        //Get.to(ProductDetailsPage(product: cartItem));
                       },
                       child: Card(
                         elevation: 3,
@@ -122,7 +203,7 @@ class _CartPageState extends State<CartPage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: CachedNetworkImage(
-                                    imageUrl: cartItem.productImageUrl[0],
+                                    imageUrl: product.productImageUrl,
                                     fit: BoxFit.cover,
                                     height: 100,
                                     errorWidget: (context, url, error) =>
@@ -152,14 +233,14 @@ class _CartPageState extends State<CartPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              cartItem.productName,
+                                              product.productName,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelLarge
                                                   ?.copyWith(fontSize: 16),
                                             ),
                                             Text(
-                                              '\$${cartItem.productPrice.toStringAsFixed(2)}',
+                                              '\$${product.productPrice.toStringAsFixed(2)}',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelLarge
@@ -170,10 +251,11 @@ class _CartPageState extends State<CartPage> {
                                         IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              widget.cartItems.removeAt(index);
+                                              removeItemFromCart(
+                                                  product.productId);
                                               Fluttertoast.showToast(
                                                 msg:
-                                                    "${cartItem.productName} removed from the cart successfully!",
+                                                    "${product.productName} removed from the cart successfully!",
                                                 toastLength: Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.CENTER,
                                                 backgroundColor: Colors.black,
@@ -211,18 +293,15 @@ class _CartPageState extends State<CartPage> {
                                                 ),
                                                 onPressed: () {
                                                   setState(() {
-                                                    if (widget.cartItems[index]
-                                                            .quantity >
-                                                        1) {
-                                                      widget.cartItems[index]
-                                                          .quantity--;
+                                                    if (product.quantity > 1) {
+                                                      product.quantity--;
                                                     }
                                                   });
                                                 },
                                               ),
                                               const SizedBox(width: 10),
                                               Text(
-                                                '${cartItem.quantity}',
+                                                '${product.quantity}',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .labelLarge
@@ -242,8 +321,7 @@ class _CartPageState extends State<CartPage> {
                                                 ),
                                                 onPressed: () {
                                                   setState(() {
-                                                    widget.cartItems[index]
-                                                        .quantity++;
+                                                    product.quantity++;
                                                   });
                                                 },
                                               ),
@@ -266,7 +344,7 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
       bottomNavigationBar: Visibility(
-        visible: widget.cartItems.isNotEmpty,
+        visible: cartListItems.isNotEmpty,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -368,4 +446,22 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+}
+
+class cartlistProducts {
+  final String productName;
+  final String productId;
+  final String productImageUrl;
+  final String productDescription;
+  final double productPrice;
+  int quantity;
+
+  cartlistProducts({
+    required this.productName,
+    required this.productId,
+    required this.productPrice,
+    required this.productImageUrl,
+    required this.productDescription,
+    required this.quantity,
+  });
 }

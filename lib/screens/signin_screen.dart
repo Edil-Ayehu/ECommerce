@@ -146,6 +146,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     cursorColor: Get.isDarkMode ? Colors.white70 : Colors.grey,
                     decoration: InputDecoration(
                       hintText: 'password'.tr,
+                      prefixIcon: const Icon(Icons.lock, color: Colors.grey),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureText

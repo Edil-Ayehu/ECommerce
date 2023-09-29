@@ -164,7 +164,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   void _navigateToProductDetails(String productName) {
     Product selectedProduct = Product.products
         .firstWhere((element) => element.productName == productName);
-    Get.to(ProductDetailsPage(product: selectedProduct));
+    //Get.to(ProductDetailsPage(product: selectedProduct));
 
     // Clear the search results and text field
     _controller.clear();

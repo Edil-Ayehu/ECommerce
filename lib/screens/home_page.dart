@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:e_commerce_project/models/models.dart';
@@ -17,12 +18,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
+
+  int wishlistCount = 0;
+  int cartItemCount = 0;
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
+
+    getWishlistItemCount().then((count) {
+      setState(() {
+        wishlistCount = count;
+      });
+    });
+
+    getCartItemCount().then((count) {
+      setState(() {
+        cartItemCount = count;
+      });
+    });
   }
 
   void getCurrentUser() async {
@@ -44,6 +61,18 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _refreshData() async {
     await Future.delayed(const Duration(seconds: 2));
+
+    getWishlistItemCount().then((count) {
+      setState(() {
+        wishlistCount = count;
+      });
+    });
+
+    getCartItemCount().then((count) {
+      setState(() {
+        cartItemCount = count;
+      });
+    });
 
     setState(() {});
   }
@@ -71,6 +100,62 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
+  Future<int> getWishlistItemCount() async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Get the user's UID
+        String userId = user.uid;
+
+        // Reference to the user's wishlist subcollection
+        CollectionReference wishlistRef =
+            firestore.collection('users').doc(userId).collection('wishlist');
+
+        // Query the wishlist subcollection and count the documents
+        QuerySnapshot querySnapshot = await wishlistRef.get();
+
+        // Return the count of documents (wishlist items)
+        return querySnapshot.size;
+      } else {
+        // User not authenticated
+        return 0;
+      }
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error retrieving wishlist item count: $e');
+      return 0;
+    }
+  }
+
+  Future<int> getCartItemCount() async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Get the user's UID
+        String userId = user.uid;
+
+        // Reference to the user's wishlist subcollection
+        CollectionReference cartRef =
+            firestore.collection('users').doc(userId).collection('cart');
+
+        // Query the wishlist subcollection and count the documents
+        QuerySnapshot querySnapshot = await cartRef.get();
+
+        // Return the count of documents (wishlist items)
+        return querySnapshot.size;
+      } else {
+        // User not authenticated
+        return 0;
+      }
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error retrieving wishlist item count: $e');
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -95,7 +180,6 @@ class _HomePageState extends State<HomePage> {
                           type: PageTransitionType.rightToLeft,
                         ),
                       );
-                      Get.to(const WishlistPage());
                       setState(() {});
                     } else {
                       showErrorDialog(context,
@@ -104,10 +188,7 @@ class _HomePageState extends State<HomePage> {
                     }
                   },
                   child: NotificationAvatar(
-                    counter: Product.products
-                        .where((element) => element.isFavorite)
-                        .toList()
-                        .length,
+                    counter: wishlistCount,
                     icon: Icons.favorite,
                     bgColor:
                         Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
@@ -117,17 +198,23 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        child: CartPage(cartItems: CartItem.cartItems),
-                        type: PageTransitionType.rightToLeft,
-                      ),
-                    );
-                    setState(() {});
+                    if (_auth.currentUser?.email != null) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const CartPage(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
+                      setState(() {});
+                    } else {
+                      showErrorDialog(context,
+                          'Please sign in or create an account to continue.');
+                      //Get.off(SigninScreen());
+                    }
                   },
                   child: NotificationAvatar(
-                    counter: CartItem.cartItems.length,
+                    counter: cartItemCount,
                     icon: Icons.shopping_cart,
                     bgColor:
                         Get.isDarkMode ? const Color(0xFF3E3E43) : Colors.white,
@@ -148,13 +235,13 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               PageTransition(
-                child: CartPage(cartItems: CartItem.cartItems),
+                child: CartPage(),
                 type: PageTransitionType.rightToLeft,
               ),
             );
           },
           child: NotificationAvatar(
-            counter: CartItem.cartItems.length,
+            counter: cartItemCount,
             icon: Icons.shopping_cart_outlined,
             bgColor: Colors.transparent,
             iconColor: Get.isDarkMode ? Colors.black : Colors.white,
@@ -193,17 +280,17 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     final category = Category.categories[index];
                     return InkWell(
-                      onTap: () {
-                        category.subCategories.isEmpty
-                            ? Get.to(ProductsPage(
-                                products: Product.products
-                                    .where((element) =>
-                                        element.productCategory ==
-                                        category.name)
-                                    .toList()))
-                            : Get.to(ProductCategoriesPage(
-                                categories: Category.categories));
-                      },
+                      // onTap: () {
+                      //   category.subCategories.isEmpty
+                      //       ? Get.to(ProductsPage(
+                      //           products: Product.products
+                      //               .where((element) =>
+                      //                   element.productCategory ==
+                      //                   category.name)
+                      //               .toList()))
+                      //       : Get.to(ProductCategoriesPage(
+                      //           categories: Category.categories));
+                      // },
                       child: DynamicWidthContainer(
                         text: Category.categories[index].name,
                         icon: Category.categories[index].icon,
@@ -235,30 +322,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 15),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //   child: HorizontalTextContainer(
-              //     onTap: () {
-              //       Get.to(const NewProductsPage());
-              //     },
-              //     titleText: 'Recommendations',
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 240,
-              //   child: ListView.builder(
-              //     itemCount: 10,
-              //     scrollDirection: Axis.horizontal,
-              //     physics: const BouncingScrollPhysics(),
-              //     itemBuilder: (context, index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.only(left: 15.0),
-              //         child: VerticalProductContainer(
-              //             product: Product.products[index]),
-              //       );
-              //     },
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalTextContainer(

@@ -73,7 +73,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 PageTransition(
-                  child: CartPage(cartItems: CartItem.cartItems),
+                  child: CartPage(),
                   type: PageTransitionType.rightToLeft,
                 ),
               );

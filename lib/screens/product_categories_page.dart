@@ -113,17 +113,17 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black),
                       onPressed: () {
-                        selectedSubcategory != null
-                            ? {
-                                Navigator.of(context).pop(),
-                                Get.to(ProductsPage(
-                                    products: Product.products
-                                        .where((product) =>
-                                            product.productSubCategory ==
-                                            selectedSubcategory)
-                                        .toList())),
-                              }
-                            : Navigator.of(context).pop();
+                        // selectedSubcategory != null
+                        //     ? {
+                        //         Navigator.of(context).pop(),
+                        //         Get.to(ProductsPage(
+                        //             products: Product.products
+                        //                 .where((product) =>
+                        //                     product.productSubCategory ==
+                        //                     selectedSubcategory)
+                        //                 .toList())),
+                        //       }
+                        //     : Navigator.of(context).pop();
                       },
                       child: const Text('Submit'),
                     ),
@@ -173,21 +173,21 @@ class _ProductCategoriesPageState extends State<ProductCategoriesPage> {
                 itemBuilder: (context, index) {
                   final category = widget.categories[index];
                   return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedCategory = category.name;
-                        selectedSubcategory =
-                            null; // Clear subcategory selection
-                      });
-                      category.subCategories.isNotEmpty
-                          ? _showSubcategoriesDialog(category.subCategories)
-                          : Get.to(ProductsPage(
-                              products: Product.products
-                                  .where((product) =>
-                                      product.productCategory == category.name)
-                                  .toList(),
-                            ));
-                    },
+                    // onTap: () {
+                    //   setState(() {
+                    //     selectedCategory = category.name;
+                    //     selectedSubcategory =
+                    //         null; // Clear subcategory selection
+                    //   });
+                    //   category.subCategories.isNotEmpty
+                    //       ? _showSubcategoriesDialog(category.subCategories)
+                    //       : Get.to(ProductsPage(
+                    //           products: Product.products
+                    //               .where((product) =>
+                    //                   product.productCategory == category.name)
+                    //               .toList(),
+                    //         ));
+                    // },
                     child: CategoryWidget(category: category),
                   );
                 },

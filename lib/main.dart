@@ -1,3 +1,4 @@
+import 'package:e_commerce_project/product_list_screen.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/services/app_translations.dart';
 import 'package:e_commerce_project/themes/themes.dart';
@@ -7,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:e_commerce_project/utilities/dismiss_keyboard.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'widgets/widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final Locale initialLocale;
 
-  const MyApp(this.initialLocale, {Key? key}) : super(key: key);
+  MyApp(this.initialLocale, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
