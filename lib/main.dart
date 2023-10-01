@@ -1,6 +1,7 @@
 import 'package:e_commerce_project/product_list_screen.dart';
 import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/services/app_translations.dart';
+import 'package:e_commerce_project/services/auto_signout_detector.dart';
 import 'package:e_commerce_project/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         darkTheme: darkTheme,
         theme: lightTheme,
         themeMode: ThemeMode.system,
-        home: const SplashScreen(),
+        home: const AutoSignoutDetector(child: SplashScreen()),
       ),
     );
   }
