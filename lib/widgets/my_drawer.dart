@@ -7,6 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/reusable_functions.dart';
+
 class MyDrawer extends StatefulWidget {
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -68,14 +70,21 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           InkWell(
             onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                PageTransition(
-                  child: CartPage(),
-                  type: PageTransitionType.rightToLeft,
-                ),
-              );
+              if (_auth.currentUser?.email != null) {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const CartPage(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
+              } else {
+                ReusableFunctions.showErrorDialog(
+                  context,
+                  'Please sign in or create an account to continue.',
+                );
+              }
             },
             child: const ListTile(
               leading: Icon(

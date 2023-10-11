@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_project/screens/screens.dart';
@@ -7,7 +8,9 @@ import '../models/products_model.dart';
 import 'home_page.dart';
 
 class NewProductsPage extends StatefulWidget {
-  const NewProductsPage({Key? key}) : super(key: key);
+  final List<QueryDocumentSnapshot> products;
+
+  NewProductsPage({required this.products});
 
   @override
   State<NewProductsPage> createState() => _NewProductsPageState();
@@ -54,9 +57,7 @@ class _NewProductsPageState extends State<NewProductsPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomSearchBar(
-                darkModeBgColor: const Color(0xFF3E3E43),
-                productItems:
-                    Product.products.map((e) => e.productName).toList(),
+                productItems: widget.products,
               ),
             ),
             const SizedBox(height: 10),
@@ -77,9 +78,9 @@ class _NewProductsPageState extends State<NewProductsPage> {
                       backgroundColor: Colors.black,
                     ),
                     onPressed: () {
-                      Product.products.sort((a, b) => a.productName
+                      widget.products.sort((a, b) => a['name']
                           .toLowerCase()
-                          .compareTo(b.productName.toLowerCase()));
+                          .compareTo(b['name'].toLowerCase()));
                       setState(() {});
                     },
                     child: Text(
@@ -98,8 +99,8 @@ class _NewProductsPageState extends State<NewProductsPage> {
                           Get.isDarkMode ? Colors.white70 : Colors.white,
                     ),
                     onPressed: () {
-                      Product.products.sort(
-                          (a, b) => a.productPrice.compareTo(b.productPrice));
+                      widget.products
+                          .sort((a, b) => a['price'].compareTo(b['price']));
                       setState(() {});
                     },
                     child: const Text(
@@ -115,8 +116,8 @@ class _NewProductsPageState extends State<NewProductsPage> {
             const SizedBox(height: 10),
             Expanded(
               child: ProductWidget(
-                products: Product.products,
-                itemCount: Product.products.length,
+                itemCount: widget.products.length,
+                products: widget.products,
               ),
             ),
           ],

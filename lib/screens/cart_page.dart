@@ -74,21 +74,17 @@ class _CartPageState extends State<CartPage> {
       User? user = _auth.currentUser;
 
       if (user != null) {
-        // Get the user's UID
         String userId = user.uid;
 
-        // Reference to the user's cart subcollection
         CollectionReference cartlistRef =
             firestore.collection('users').doc(userId).collection('cart');
 
         await cartlistRef.doc(productId).delete();
         fetchCartlistItems();
       } else {
-        // User not authenticated
         print('User not authenticated');
       }
     } catch (e) {
-      // Handle any errors that occur
       print('Error removing item from cart: $e');
     }
   }
@@ -144,13 +140,22 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Text(
           'My Cart',
           style: Theme.of(context).textTheme.displayMedium,
         ),
+        leading: IconButton(
+          onPressed: () {
+            Get.to(const HomePage());
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.white70 : Colors.black,
+          ),
+        ),
         actions: [
           NotificationAvatar(
-            counter: cartlistCount,
             icon: Icons.shopping_cart,
             bgColor: Colors.grey.shade200,
           ),

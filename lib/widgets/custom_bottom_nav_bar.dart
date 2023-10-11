@@ -4,6 +4,7 @@ import 'package:e_commerce_project/screens/screens.dart';
 import 'package:e_commerce_project/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:page_transition/page_transition.dart';
+import '../services/reusable_functions.dart';
 
 class CustomBottonNavBar extends StatefulWidget {
   const CustomBottonNavBar({Key? key}) : super(key: key);
@@ -58,7 +59,10 @@ class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
                   ),
                 );
               } else {
-                Get.to(SigninScreen());
+                ReusableFunctions.showErrorDialog(
+                  context,
+                  'Please sign in or create an account to continue.',
+                );
               }
             },
             icon: const Icon(
@@ -76,7 +80,10 @@ class _CustomBottonNavBarState extends State<CustomBottonNavBar> {
                   ),
                 );
               } else {
-                Get.to(SigninScreen());
+                ReusableFunctions.showErrorDialog(
+                  context,
+                  'Please sign in or create an account to continue.',
+                );
               }
             },
             icon: const Icon(

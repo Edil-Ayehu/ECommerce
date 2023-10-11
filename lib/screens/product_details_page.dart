@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/services/reusable_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_project/models/models.dart';
@@ -7,10 +8,13 @@ import 'package:e_commerce_project/widgets/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../models/counter_model.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final QueryDocumentSnapshot productSnapshot;
@@ -60,7 +64,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       User? user = _auth.currentUser;
 
       if (user != null) {
-        // Get the user's UID
         String userId = user.uid;
 
         // Check if the item is already in the user's cart
@@ -73,9 +76,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
         if (cartItemDoc.exists) {
           // The item is already in the cart
-          showToastMessage('$productName is already in the cart', Colors.red);
+          ReusableFunctions.showToastMessage(
+              '$productName is already in the cart', Colors.red);
         } else {
           // Add the product to the user's cart
+          context.read<CounterModel>().incrementCartItemCount();
           await firestore
               .collection('users')
               .doc(userId)
@@ -91,30 +96,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             'productSubcategory': productSubcategory,
             'averageRating': averageRating,
             'quantity': quantity,
-            // Add other product details as needed
           });
 
           // Cart item added successfully
-          showToastMessage(
+          ReusableFunctions.showToastMessage(
               '$productName added to cart successfully.', Colors.black);
         }
       } else {
-        // User not authenticated
         print('User not authenticated');
       }
     } catch (e) {
-      // Handle any errors that occur
       print('Error adding item to cart: $e');
     }
-  }
-
-  void showToastMessage(String message, Color bgColor) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: bgColor,
-    );
   }
 
   // void _showRatingDialog() {

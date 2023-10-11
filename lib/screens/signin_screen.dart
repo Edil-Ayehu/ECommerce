@@ -1,16 +1,15 @@
 import 'package:e_commerce_project/screens/screens.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:e_commerce_project/services/reusable_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:e_commerce_project/services/auth_service.dart';
 import 'package:page_transition/page_transition.dart';
-
 import '../widgets/widgets.dart';
 
 class SigninScreen extends StatefulWidget {
-  SigninScreen({Key? key}) : super(key: key);
+  const SigninScreen({Key? key}) : super(key: key);
 
   @override
   State<SigninScreen> createState() => _SigninScreenState();
@@ -23,30 +22,6 @@ class _SigninScreenState extends State<SigninScreen> {
   late String password;
   bool _obscureText = true;
   bool showSpinner = false;
-
-  // Function to show an error dialog
-  void showErrorDialog(ctx, String errorMessage) {
-    showCupertinoDialog(
-        context: ctx,
-        builder: (_) => CupertinoAlertDialog(
-              title: const Text("Error"),
-              content: Text(errorMessage),
-              actions: [
-                CupertinoButton(
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Color(0xFF750F21),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,8 +206,10 @@ class _SigninScreenState extends State<SigninScreen> {
                         setState(() {
                           showSpinner = false;
                         });
-                        showErrorDialog(context,
-                            'Invalid email or password. Please try again.');
+                        ReusableFunctions.showErrorDialog(
+                          context,
+                          'Invalid email or password. Please try again.',
+                        );
                       }
                     },
                     child: Text(

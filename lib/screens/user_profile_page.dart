@@ -14,6 +14,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
+      body: Container(
+        child: const Center(
+          child: Text('Hossana'),
+        ),
+      ),
     );
   }
 }

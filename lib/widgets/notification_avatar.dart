@@ -1,34 +1,37 @@
+import 'package:e_commerce_project/models/counter_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class NotificationAvatar extends StatefulWidget {
-  final int counter;
+class NotificationAvatar extends StatelessWidget {
   final IconData icon;
   final Color bgColor;
   final Color iconColor;
+  final bool isWishlistCounter;
 
   const NotificationAvatar({
     super.key,
-    required this.counter,
     required this.icon,
     this.bgColor = Colors.white,
     this.iconColor = Colors.black,
+    this.isWishlistCounter = false,
   });
 
   @override
-  State<NotificationAvatar> createState() => _NotificationAvatarState();
-}
-
-class _NotificationAvatarState extends State<NotificationAvatar> {
-  @override
   Widget build(BuildContext context) {
+    final myModel = Provider.of<CounterModel>(context, listen: false);
+
+    isWishlistCounter
+        ? myModel.getCartItemCount()
+        : myModel.getWishlistItemCount();
+
     return Stack(
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundColor: widget.bgColor,
+          backgroundColor: bgColor,
           child: Icon(
-            widget.icon,
-            color: widget.iconColor,
+            icon,
+            color: iconColor,
             size: 28,
           ),
         ),
@@ -42,9 +45,11 @@ class _NotificationAvatarState extends State<NotificationAvatar> {
               shape: BoxShape.circle,
             ),
             child: Text(
-              '${widget.counter}',
+              isWishlistCounter
+                  ? '${Provider.of<CounterModel>(context).wishlistItemCounter}'
+                  : '${Provider.of<CounterModel>(context).cartItemCounter}',
               style: const TextStyle(
-                color: Colors.white, // Change the badge text color as needed
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

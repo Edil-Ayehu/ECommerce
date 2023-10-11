@@ -6,6 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../models/counter_model.dart';
+import '../services/reusable_functions.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
@@ -20,6 +24,7 @@ class _WishlistPageState extends State<WishlistPage> {
 
   // List to store wishlist items
   List<WishlistProducts> wishlistItems = [];
+  //List<QueryDocumentSnapshot> wishlistItems = [];
 
   Future<void> fetchWishlistItems() async {
     try {
@@ -140,10 +145,7 @@ class _WishlistPageState extends State<WishlistPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(height: 15),
-                  // CustomSearchBar(
-                  //   productItems:
-                  //       favoriteProducts.map((e) => e.productName).toList(),
-                  // ),
+                  //CustomSearchBar(productItems: wishlistItems),
                   const SizedBox(height: 15),
                   Expanded(
                     child: ListView.builder(
@@ -312,93 +314,6 @@ class _WishlistPageState extends State<WishlistPage> {
     );
   }
 }
-
-// class WishlistPage extends StatefulWidget {
-//   const WishlistPage({Key? key});
-//
-//   @override
-//   State<WishlistPage> createState() => _WishlistPageState();
-// }
-//
-// class _WishlistPageState extends State<WishlistPage> {
-//   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-//   final FirebaseAuth auth = FirebaseAuth.instance;
-//
-//   // List to store wishlist items
-//   List<Product> wishlistItems = [];
-//
-//   Future<void> fetchWishlistItems() async {
-//     try {
-//       User? user = auth.currentUser;
-//
-//       if (user != null) {
-//         // Get the user's UID
-//         String userId = user.uid;
-//
-//         // Reference to the user's wishlist subcollection
-//         CollectionReference wishlistRef =
-//         firestore.collection('users').doc(userId).collection('wishlist');
-//
-//         // Query the wishlist subcollection to get wishlist items
-//         QuerySnapshot querySnapshot = await wishlistRef.get();
-//
-//         // Clear the existing wishlist items
-//         wishlistItems.clear();
-//
-//         // Iterate through the documents and add them to the list
-//         querySnapshot.docs.forEach((doc) {
-//           // Create Product object from Firestore document data
-//           Product product = Product(
-//             productId: doc['productId'],
-//             productName: doc['productName'],
-//             productPrice: doc['productPrice'],
-//             // Add other product details as needed
-//           );
-//
-//           // Add the product to the wishlistItems list
-//           wishlistItems.add(product);
-//         });
-//
-//         // Update the UI
-//         setState(() {});
-//       } else {
-//         // User not authenticated
-//         print('User not authenticated');
-//       }
-//     } catch (e) {
-//       // Handle any errors that occur
-//       print('Error retrieving wishlist items: $e');
-//     }
-//   }
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Fetch wishlist items when the widget is initialized
-//     fetchWishlistItems();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final wishlistCount = wishlistItems.length;
-//
-//     return Scaffold(
-//       // ... rest of your code remains the same
-//       body: wishlistCount == 0
-//           ? const EmptyWishlistContainer()
-//           : Container(
-//         // ... your existing code for displaying wishlist items
-//         itemCount: wishlistCount,
-//         shrinkWrap: true,
-//         physics: const BouncingScrollPhysics(),
-//         itemBuilder: (context, index) {
-//           final product = wishlistItems[index];
-//           // ... your existing code for displaying wishlist items
-//         },
-//       ),
-//     );
-//   }
-// }
 
 class WishlistProducts {
   final String productName;

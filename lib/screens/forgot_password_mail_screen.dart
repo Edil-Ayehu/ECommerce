@@ -1,9 +1,7 @@
+import 'package:e_commerce_project/services/reusable_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
-
 import '../widgets/widgets.dart';
 
 class ForgotPasswordMailScreen extends StatefulWidget {
@@ -18,36 +16,14 @@ class _ForgotPasswordMailScreenState extends State<ForgotPasswordMailScreen> {
   late String email;
   bool showSpinner = false;
 
-  void showErrorDialog(ctx, String errorMessage) {
-    showCupertinoDialog(
-        context: ctx,
-        builder: (_) => CupertinoAlertDialog(
-              title: const Text("Error"),
-              content: Text(errorMessage),
-              actions: [
-                CupertinoButton(
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Color(0xFF750F21),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-  }
-
   Future<void> resetPassword(String email) async {
     setState(() {
       showSpinner = true;
     });
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      showErrorDialog(context, 'Password reset email sent. Check your email.');
+      ReusableFunctions.showErrorDialog(
+          context, 'Password reset email sent. Check your email.');
       setState(() {
         showSpinner = false;
       });
@@ -55,7 +31,7 @@ class _ForgotPasswordMailScreenState extends State<ForgotPasswordMailScreen> {
       setState(() {
         showSpinner = false;
       });
-      showErrorDialog(
+      ReusableFunctions.showErrorDialog(
           context, 'Password reset email sending failed. Please try again.');
     }
   }

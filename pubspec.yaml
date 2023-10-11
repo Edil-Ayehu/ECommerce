@@ -56,6 +56,9 @@ dependencies:
   shared_preferences:
   url_launcher:
   page_transition: ^2.1.0
+  provider:
+  geolocator:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

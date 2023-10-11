@@ -1,4 +1,5 @@
 import 'package:e_commerce_project/screens/screens.dart';
+import 'package:e_commerce_project/services/reusable_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,31 +29,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool showSpinner = false;
 
-  // Function to show an error dialog
-  void showErrorDialog(ctx, String errorMessage) {
-    showCupertinoDialog(
-        context: ctx,
-        builder: (_) => CupertinoAlertDialog(
-              title: const Text("Error"),
-              content: Text(errorMessage),
-              actions: [
-                CupertinoButton(
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Color(0xFF750F21),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-  }
-
-  // Function to validate if the text fields are empty
   bool isTextFieldEmpty(String text) {
     return text.trim().isEmpty;
   }
@@ -284,9 +260,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           setState(() {
                             showSpinner = false;
                           });
-                          // Show an error dialog with the error message
-                          showErrorDialog(
-                              context, 'Sign-up failed. Please try again.');
+
+                          ReusableFunctions.showErrorDialog(
+                            context,
+                            "Sign-up failed. Please try again.",
+                          );
                         }
                       } else {
                         setState(() {

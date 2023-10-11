@@ -17,3 +17,4 @@ export 'horizontal_text_container.dart';
 export 'custom_circle_avatar.dart';
 export 'reusable_button.dart';
 export 'reusable_text_field.dart';
+export 'square_container.dart';

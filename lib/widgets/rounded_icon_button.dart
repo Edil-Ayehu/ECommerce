@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_project/services/reusable_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import '../models/counter_model.dart';
 
 class RoundedIconButton extends StatefulWidget {
   final IconData icon;
   final Color backgroundColor;
   final QueryDocumentSnapshot<Object?> productSnapshot;
+  final Color iconColor;
 
   const RoundedIconButton({
     super.key,
     required this.icon,
     required this.backgroundColor,
     required this.productSnapshot,
+    this.iconColor = Colors.white,
   });
 
   @override
@@ -39,10 +44,7 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
       User? user = auth.currentUser;
 
       if (user != null) {
-        // Get the user's UID
         String userId = user.uid;
-
-        // Check if the item is already in the user's cart
         final cartItemDoc = await firestore
             .collection('users')
             .doc(userId)
@@ -51,10 +53,12 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
             .get();
 
         if (cartItemDoc.exists) {
-          // The item is already in the cart
-          showToastMessage('$productName is already in the cart', Colors.red);
+          ReusableFunctions.showToastMessage(
+            '$productName is already in the cart.',
+            Colors.red,
+          );
         } else {
-          // Add the product to the user's cart
+          context.read<CounterModel>().incrementCartItemCount();
           await firestore
               .collection('users')
               .doc(userId)
@@ -70,54 +74,18 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
             'productSubcategory': productSubcategory,
             'averageRating': averageRating,
             'quantity': quantity,
-            // Add other product details as needed
           });
-
-          // Cart item added successfully
-          showToastMessage(
-              '$productName added to cart successfully.', Colors.black);
+          ReusableFunctions.showToastMessage(
+            '$productName added to cart successfully.',
+            Colors.black,
+          );
         }
       } else {
-        // User not authenticated
         print('User not authenticated');
       }
     } catch (e) {
-      // Handle any errors that occur
       print('Error adding item to cart: $e');
     }
-  }
-
-  // Function to show a toast message
-  void showToastMessage(String message, Color bgColor) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: bgColor,
-    );
-  }
-
-  void showErrorDialog(ctx, String errorMessage) {
-    showCupertinoDialog(
-        context: ctx,
-        builder: (_) => CupertinoAlertDialog(
-              title: const Text("Error"),
-              content: Text(errorMessage),
-              actions: [
-                CupertinoButton(
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Color(0xFF750F21),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
   }
 
   @override
@@ -145,13 +113,15 @@ class _RoundedIconButtonState extends State<RoundedIconButton> {
               quantity: widget.productSnapshot['quantity'],
             );
           } else {
-            showErrorDialog(
-                context, 'Please sign in or create an account to continue.');
+            ReusableFunctions.showErrorDialog(
+              context,
+              'Please sign in or create an account to continue.',
+            );
           }
         },
         child: Icon(
           widget.icon,
-          color: Colors.white,
+          color: widget.iconColor,
         ),
       ),
     );
